@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es5",
+    "downlevelIteration": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "paths": {
+      "@configs/*": ["src/configs/*"],
+      "@modules/*": ["src/modules/*"],
+      "@shared-types/*": ["src/shared/types/*"],
+      "@shared/*": ["src/shared/*"],
+      "@decorators/*": ["src/shared/decorators/*"],
+      "@providers/*": ["src/shared/providers/*"],
+      "@constants/*": ["src/shared/constants/*"],
+      "@libs/*": ["libs/*"],
+      "@images/*": ["public/assets/images/*"],
+    },
+    "strict": true,
+    "noEmit": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "incremental": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "useUnknownInCatchVariables": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
