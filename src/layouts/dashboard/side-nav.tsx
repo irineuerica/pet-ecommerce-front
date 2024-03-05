@@ -13,14 +13,14 @@ import {
   Theme,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 
-export const SideNav = (props: { open: boolean; onClose: any; }) => {
+export const SideNav = (props: { open: boolean; onClose: any }) => {
   const theme = useTheme();
   const { open, onClose } = props;
   const pathname = usePathname();
@@ -31,18 +31,18 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
       sx={{
         height: '100%',
         '& .simplebar-content': {
-          height: '100%'
+          height: '100%',
         },
         '& .simplebar-scrollbar:before': {
-          background: 'neutral.400'
-        }
+          background: 'neutral.400',
+        },
       }}
     >
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%'
+          height: '100%',
         }}
       >
         <Box sx={{ p: 3 }}>
@@ -55,26 +55,22 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
               display: 'flex',
               justifyContent: 'start',
               mt: 2,
-              p: '12px'
+              p: '12px',
             }}
           >
-             <Box
-            component={NextLink}
-            href="/"
-            sx={{
-              display: 'inline-flex',
-              height: 32,
-              width: 32
-            }}
-          >
-            <Logo />
-          </Box>
+            <Box
+              component={NextLink}
+              href="/"
+              sx={{
+                display: 'inline-flex',
+                height: 32,
+                width: 32,
+              }}
+            >
+              <Logo />
+            </Box>
             <div>
-              <Typography
-                color={theme.palette.primary.main}
-                variant="subtitle1"
-                pl={2}
-              >
+              <Typography color={theme.palette.primary.main} variant="subtitle1" pl={2}>
                 NOME PROJETO
               </Typography>
             </div>
@@ -85,7 +81,7 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
           sx={{
             flexGrow: 1,
             px: 2,
-            py: 3
+            py: 3,
           }}
         >
           <Stack
@@ -94,11 +90,11 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
             sx={{
               listStyle: 'none',
               p: 0,
-              m: 0
+              m: 0,
             }}
           >
             {items.map((item) => {
-              const active = item.path ? (pathname === item.path) : false;
+              const active = item.path ? pathname === item.path : false;
 
               return (
                 <SideNavItem
@@ -128,8 +124,8 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
           sx: {
             backgroundColor: theme.palette.primary.darker,
             color: 'common.white',
-            width: 280
-          }
+            width: 280,
+          },
         }}
         variant="permanent"
       >
@@ -147,8 +143,8 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
         sx: {
           backgroundColor: 'neutral.800',
           color: 'common.white',
-          width: 280
-        }
+          width: 280,
+        },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
@@ -160,5 +156,5 @@ export const SideNav = (props: { open: boolean; onClose: any; }) => {
 
 SideNav.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

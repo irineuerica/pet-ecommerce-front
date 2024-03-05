@@ -8,12 +8,10 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
-import Page from '.';
 
 const clientSideEmotionCache = createEmotionCache();
 
-
-const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; pageProps: any; }) => {
+const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; pageProps: any }) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   useNProgress();
@@ -25,19 +23,14 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>
-          Pet E-commerce
-        </title>
-        <meta
-          name="viewport"
-          content="initial-scale=1, width=device-width"
-        />
+        <title>Pet E-commerce</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
       </LocalizationProvider>
     </CacheProvider>
   );

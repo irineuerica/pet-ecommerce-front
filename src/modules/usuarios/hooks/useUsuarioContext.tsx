@@ -2,35 +2,25 @@ import { createContext, useState } from 'react';
 import { UsuarioInterface } from '../types/usuario.type';
 
 type UsuarioContextData = {
-    usuario: UsuarioInterface | {};
-    setUsuario: (data: UsuarioInterface) => void | {};
-}
+  usuario: UsuarioInterface | {};
+  setUsuario: (data: UsuarioInterface) => void | {};
+};
 
-const UsuariContext = createContext<UsuarioContextData | undefined>(
-    undefined
-);
+const UsuariContext = createContext<UsuarioContextData | undefined>(undefined);
 
 interface UsuarioProviderProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
+export const UsuarioProvider: React.FC<UsuarioProviderProps> = ({ children }) => {
+  const [usuario, setUsuario] = useState({});
 
-export const UsuarioProvider: React.FC<UsuarioProviderProps> = ({
-    children,
-}) => {
-    const [usuario, setUsuario] = useState({})
+  const contextoData: UsuarioContextData = {
+    usuario,
+    setUsuario,
+  };
 
-    const contextoData: UsuarioContextData = {
-        usuario,
-        setUsuario
-    };
-
-
-    return (
-        <UsuariContext.Provider value={contextoData}>
-            {children}
-        </UsuariContext.Provider>
-    )
-}
+  return <UsuariContext.Provider value={contextoData}>{children}</UsuariContext.Provider>;
+};
 
 export default UsuariContext;

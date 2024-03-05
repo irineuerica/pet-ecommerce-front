@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json"
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
-export const api = axios.create({ baseURL: 'http://localhost:3013', headers});
+export const api = axios.create({ baseURL: 'http://localhost:3013', headers });

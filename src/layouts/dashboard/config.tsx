@@ -10,7 +10,7 @@ export const items = [
       <SvgIcon fontSize="small">
         <EmojiNatureOutlinedIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
     title: 'Meus Pedidos',
@@ -19,6 +19,6 @@ export const items = [
       <SvgIcon fontSize="small">
         <PetsOutlinedIcon />
       </SvgIcon>
-    )
+    ),
   },
 ];

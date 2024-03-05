@@ -1,36 +1,44 @@
-
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { useState } from "react";
-import { CadastroUsuarioInterface } from "../../types/cadastro-usuario-types";
-import { GeneroEnum } from "src/constants/enums/genero.enum";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
+import { useState } from 'react';
+import { CadastroUsuarioInterface } from '../../types/cadastro-usuario-types';
+import { GeneroEnum } from 'src/constants/enums/genero.enum';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import InputMask from 'react-input-mask';
 
-
 export default function CardInformacoesBasicas() {
-  const [confirmarSenha, setConfirmarSenha] = useState<string>('')
+  const [confirmarSenha, setConfirmarSenha] = useState<string>('');
   const [usuario, setUsuario] = useState<CadastroUsuarioInterface>({
-    nome: "",
-    genero: "",
+    nome: '',
+    genero: '',
     dataNascimento: new Date(),
-    cpf: "",
-    dddTelefone: "",
-    telefone: "",
-    email: "",
-    senha: ""
+    cpf: '',
+    dddTelefone: '',
+    telefone: '',
+    email: '',
+    senha: '',
   });
-
 
   return (
     <Card>
-      <CardHeader
-        subheader="The information can be edited"
-        title="Profile"
-      />
-      <CardContent sx={{ pt: 2, pl: 5 }}>
+      <CardHeader title="Perfil" />
+      <CardContent sx={{ pt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <TextField
@@ -40,8 +48,8 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  nome: value.target.value
-                })
+                  nome: value.target.value,
+                });
               }}
               required
               value={usuario?.nome}
@@ -57,8 +65,8 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  email: value.target.value
-                })
+                  email: value.target.value,
+                });
               }}
             />
           </Grid>
@@ -70,18 +78,12 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  dddTelefone: value.target.value
-                })
+                  dddTelefone: value.target.value,
+                });
               }}
             >
               {/* @ts-ignore */}
-              {() => (
-                <TextField
-                  fullWidth
-                  label="DDD"
-                  name="ddd"
-                  required
-                />)}
+              {() => <TextField fullWidth label="DDD" name="ddd" required />}
             </InputMask>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -92,34 +94,28 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  telefone: value.target.value
-                })
+                  telefone: value.target.value,
+                });
               }}
             >
               {/* @ts-ignore */}
-              {() => (
-                <TextField
-                  fullWidth
-                  required
-                  label="Celular"
-                  name="telefone"
-                />)}
+              {() => <TextField fullWidth required label="Celular" name="telefone" />}
             </InputMask>
           </Grid>
-          <Grid item xs={12} md={6} >
+          <Grid item xs={12} md={6}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Gênero</InputLabel>
               <Select
                 id="select-genero"
                 required
-                name='genero'
+                name="genero"
                 value={usuario.genero}
                 label="Gênero"
                 onChange={(event: SelectChangeEvent) => {
                   setUsuario({
                     ...usuario,
-                    genero: event.target.value
-                  })
+                    genero: event.target.value,
+                  });
                 }}
               >
                 <MenuItem value={GeneroEnum.FEMININO}>{GeneroEnum.FEMININO}</MenuItem>
@@ -131,19 +127,19 @@ export default function CardInformacoesBasicas() {
           <Grid item xs={12} md={6}>
             <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale={'pt-br'}>
               <DatePicker
-                label='Data de nascimento'
+                label="Data de nascimento"
                 value={moment(usuario.dataNascimento)}
                 //@ts-ignore
                 onChange={(value: date) => {
                   setUsuario({
                     ...usuario,
-                    dataNascimento: value
-                  })
+                    dataNascimento: value,
+                  });
                 }}
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={12} md={6} >
+          <Grid item xs={12} md={6}>
             <InputMask
               mask="999.999.999-99"
               maskChar=""
@@ -151,21 +147,13 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  cpf: value.target.value
-                })
+                  cpf: value.target.value,
+                });
               }}
             >
               {/* @ts-ignore */}
-              {() => (
-                <TextField
-                  required
-                  fullWidth
-                  label="CPF"
-                  name="cpf"
-                />
-              )}
+              {() => <TextField required fullWidth label="CPF" name="cpf" />}
             </InputMask>
-
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
@@ -178,12 +166,12 @@ export default function CardInformacoesBasicas() {
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
                 setUsuario({
                   ...usuario,
-                  senha: value.target.value
-                })
+                  senha: value.target.value,
+                });
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} >
+          <Grid item xs={12} md={6}>
             <TextField
               required
               fullWidth
@@ -192,7 +180,7 @@ export default function CardInformacoesBasicas() {
               name="confirmarSenha"
               value={confirmarSenha}
               onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setConfirmarSenha(value.target.value)
+                setConfirmarSenha(value.target.value);
               }}
             />
           </Grid>
@@ -200,10 +188,8 @@ export default function CardInformacoesBasicas() {
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button variant="contained">
-          Cadastrar
-        </Button>
+        <Button variant="contained">Cadastrar</Button>
       </CardActions>
     </Card>
-  )
+  );
 }

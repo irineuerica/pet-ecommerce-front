@@ -14,18 +14,17 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-
 
 const statusMap = {
   pending: 'warning',
   delivered: 'success',
-  refunded: 'error'
+  refunded: 'error',
 };
 
-export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: any; }) => {
+export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: any }) => {
   const { orders = [], sx } = props;
 
   return (
@@ -36,18 +35,10 @@ export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: 
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Order
-                </TableCell>
-                <TableCell>
-                  Customer
-                </TableCell>
-                <TableCell sortDirection="desc">
-                  Date
-                </TableCell>
-                <TableCell>
-                  Status
-                </TableCell>
+                <TableCell>Order</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell sortDirection="desc">Date</TableCell>
+                <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -55,19 +46,10 @@ export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: 
                 const createdAt = format(order.createdAt, 'dd/MM/yyyy');
 
                 return (
-                  <TableRow
-                    hover
-                    key={order.id}
-                  >
-                    <TableCell>
-                      {order.ref}
-                    </TableCell>
-                    <TableCell>
-                      {order.customer.name}
-                    </TableCell>
-                    <TableCell>
-                      {createdAt}
-                    </TableCell>
+                  <TableRow hover key={order.id}>
+                    <TableCell>{order.ref}</TableCell>
+                    <TableCell>{order.customer.name}</TableCell>
+                    <TableCell>{createdAt}</TableCell>
                   </TableRow>
                 );
               })}
@@ -79,11 +61,11 @@ export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: 
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
-          endIcon={(
+          endIcon={
             <SvgIcon fontSize="small">
               <ArrowRightIcon />
             </SvgIcon>
-          )}
+          }
           size="small"
           variant="text"
         >
@@ -96,5 +78,5 @@ export const OverviewLatestOrders = (props: { orders?: never[] | undefined; sx: 
 
 OverviewLatestOrders.prototype = {
   orders: PropTypes.array,
-  sx: PropTypes.object
+  sx: PropTypes.object,
 };
