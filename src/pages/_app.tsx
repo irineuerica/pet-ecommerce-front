@@ -23,7 +23,7 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Pet E-commerce</title>
+        <title>Liro E-commerce</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

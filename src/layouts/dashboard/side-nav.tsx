@@ -71,7 +71,7 @@ export const SideNav = (props: { open: boolean; onClose: any }) => {
             </Box>
             <div>
               <Typography color={theme.palette.primary.main} variant="subtitle1" pl={2}>
-                NOME PROJETO
+                LIRO PET SHOP
               </Typography>
             </div>
           </Box>

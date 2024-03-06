@@ -1,4 +1,3 @@
-import EmojiNatureOutlinedIcon from '@mui/icons-material/EmojiNatureOutlined';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import { SvgIcon } from '@mui/material';
 
@@ -8,7 +7,7 @@ export const items = [
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
-        <EmojiNatureOutlinedIcon />
+        <PetsOutlinedIcon />
       </SvgIcon>
     ),
   },

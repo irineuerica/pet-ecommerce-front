@@ -1,195 +1,66 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Divider,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
-import { useState } from 'react';
-import { CadastroUsuarioInterface } from '../../types/cadastro-usuario-types';
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, Grid } from '@mui/material';
 import { GeneroEnum } from 'src/constants/enums/genero.enum';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment from 'moment';
-import 'moment/locale/pt-br';
-import InputMask from 'react-input-mask';
+import { FormProvider, useForm } from 'react-hook-form';
+import { FormInputText } from 'src/components/FormInputText ';
+import { FormInputDate } from 'src/components/FormInputDate';
+import { FormSelect } from 'src/components/FormSelect';
 
-export default function CardInformacoesBasicas() {
-  const [confirmarSenha, setConfirmarSenha] = useState<string>('');
-  const [usuario, setUsuario] = useState<CadastroUsuarioInterface>({
-    nome: '',
-    genero: '',
-    dataNascimento: new Date(),
-    cpf: '',
-    dddTelefone: '',
-    telefone: '',
-    email: '',
-    senha: '',
-  });
+interface CardInformacoesBasicasProps {
+  titulo: string;
+  isEdit?: boolean;
+}
+
+export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformacoesBasicasProps) {
+  const methods = useForm();
+
+  const generoOptions = [
+    { label: GeneroEnum.FEMININO, value: GeneroEnum.FEMININO },
+    { label: GeneroEnum.MASCULINO, value: GeneroEnum.MASCULINO },
+    { label: GeneroEnum.OUTRO, value: GeneroEnum.OUTRO },
+  ];
 
   return (
-    <Card>
-      <CardHeader title="Perfil" />
-      <CardContent sx={{ pt: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={12}>
-            <TextField
-              fullWidth
-              label="Nome"
-              name="nome"
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  nome: value.target.value,
-                });
-              }}
-              required
-              value={usuario?.nome}
-            />
+    <FormProvider {...methods}>
+      <Card>
+        <CardHeader title={titulo} />
+        <CardContent sx={{ pt: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <FormInputText name="nome" label="Nome" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormInputText name="email" label="E-mail" />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <FormInputText name="ddd" label="DDD" />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <FormInputText name="telefone" label="Celular" mask={{ format: '99' }} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormSelect name="genero" options={generoOptions} label="Gênero" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputDate name="dataNascimento" label="Data de nascimento" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputText name="cpf" label="CPF" mask={{ format: '999.999.999-99' }} disabled={isEdit} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputText name="senha" label="Senha" type="password" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputText name="confirmarSenha" label="Confirmar senha" type="password" />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={12}>
-            <TextField
-              fullWidth
-              label="E-mail"
-              name="email"
-              required
-              value={usuario.email}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  email: value.target.value,
-                });
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <InputMask
-              mask="99"
-              maskChar=""
-              value={usuario.dddTelefone}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  dddTelefone: value.target.value,
-                });
-              }}
-            >
-              {/* @ts-ignore */}
-              {() => <TextField fullWidth label="DDD" name="ddd" required />}
-            </InputMask>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <InputMask
-              mask="99999-9999"
-              maskChar=""
-              value={usuario.telefone}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  telefone: value.target.value,
-                });
-              }}
-            >
-              {/* @ts-ignore */}
-              {() => <TextField fullWidth required label="Celular" name="telefone" />}
-            </InputMask>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Gênero</InputLabel>
-              <Select
-                id="select-genero"
-                required
-                name="genero"
-                value={usuario.genero}
-                label="Gênero"
-                onChange={(event: SelectChangeEvent) => {
-                  setUsuario({
-                    ...usuario,
-                    genero: event.target.value,
-                  });
-                }}
-              >
-                <MenuItem value={GeneroEnum.FEMININO}>{GeneroEnum.FEMININO}</MenuItem>
-                <MenuItem value={GeneroEnum.MASCULINO}>{GeneroEnum.MASCULINO}</MenuItem>
-                <MenuItem value={GeneroEnum.OUTRO}>{GeneroEnum.OUTRO}</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale={'pt-br'}>
-              <DatePicker
-                label="Data de nascimento"
-                value={moment(usuario.dataNascimento)}
-                //@ts-ignore
-                onChange={(value: date) => {
-                  setUsuario({
-                    ...usuario,
-                    dataNascimento: value,
-                  });
-                }}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <InputMask
-              mask="999.999.999-99"
-              maskChar=""
-              value={usuario.cpf}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  cpf: value.target.value,
-                });
-              }}
-            >
-              {/* @ts-ignore */}
-              {() => <TextField required fullWidth label="CPF" name="cpf" />}
-            </InputMask>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              fullWidth
-              type="password"
-              label="Senha"
-              name="senha"
-              value={usuario.senha}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setUsuario({
-                  ...usuario,
-                  senha: value.target.value,
-                });
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              fullWidth
-              type="password"
-              label="Confirmar senha"
-              name="confirmarSenha"
-              value={confirmarSenha}
-              onChange={(value: React.ChangeEvent<HTMLInputElement>) => {
-                setConfirmarSenha(value.target.value);
-              }}
-            />
-          </Grid>
-        </Grid>
-      </CardContent>
-      <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button variant="contained">Cadastrar</Button>
-      </CardActions>
-    </Card>
+          <Divider />
+          <CardActions sx={{ justifyContent: 'flex-end', pt: 5 }}>
+            <Button fullWidth variant="contained">
+              {isEdit ? 'Salvar' : 'Cadastrar'}
+            </Button>
+          </CardActions>
+        </CardContent>
+      </Card>
+    </FormProvider>
   );
 }
