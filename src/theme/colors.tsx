@@ -10,12 +10,12 @@ declare module '@mui/material/styles/createPalette' {
   }
 
   interface SimplePaletteColorOptions {
-    lighter: string;
+    lightest: string;
     darker: string;
   }
 
   interface PaletteColor {
-    lighter: string;
+    lightest: string;
     darker: string;
   }
 }
@@ -52,7 +52,7 @@ export const neutral = {
 };
 
 export const indigo = withAlphas({
-  lightest: '#F5F7FF',
+  lightest: '#EDECFF',
   light: '#ced0e9',
   main: '#9EA1D4',
   dark: '#5E63AA',

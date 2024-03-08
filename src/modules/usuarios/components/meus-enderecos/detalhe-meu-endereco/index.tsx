@@ -40,7 +40,7 @@ export default function DetalheMeusEnderecos({ endereco }: DetalheMeusEnderecosP
       <Accordion sx={{ borderRadius: 2, pb: 2 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          sx={{ backgroundColor: theme.palette.secondary.light, borderRadius: 2 }}
+          sx={{ backgroundColor: theme.palette.primary.lightest, borderRadius: 2 }}
         >
           {endereco.nome}
         </AccordionSummary>

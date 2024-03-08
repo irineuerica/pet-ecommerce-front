@@ -8,11 +8,12 @@ const Page = () => (
     <Head>
       <title>Minha conta</title>
     </Head>
+    <Stack flexDirection={'row'}>
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8,
+        pl: 2
       }}
     >
       <Container maxWidth="lg">
@@ -21,6 +22,11 @@ const Page = () => (
         </Stack>
       </Container>
     </Box>
+    <img alt="Friends illustrations by Storyset" src="/assets/minha-conta-imagem.png" height={'auto'} width={'17%'} style={{alignSelf: 'end'}}/>
+
+    </Stack>
+   
+   
   </>
 );
 
