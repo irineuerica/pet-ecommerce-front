@@ -1,18 +1,20 @@
 import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { SnackbarProvider } from 'notistack';
+import { AuthProvider } from '@modules/auth/login/contexts/authContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; pageProps: any }) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const queryClient = new QueryClient();
 
   useNProgress();
 
@@ -26,12 +28,16 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
         <title>Liro E-commerce</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
-      </LocalizationProvider>
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider>
+          <AuthProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+          </AuthProvider>
+        </SnackbarProvider>
+      </QueryClientProvider>
     </CacheProvider>
   );
 };

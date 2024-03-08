@@ -1,18 +1,15 @@
-import { StatusEnum } from 'src/constants/enums/status.enum';
-
 export interface EnderecoInterface {
   id?: number;
-  tpResidencia: '';
-  tpLogradouro: '';
+  tpResidencia: string;
+  tpLogradouro: string;
   logradouro: string;
   numero: string;
   nome: string;
   bairro: string;
-  cep: number;
-  cidade: number;
-  estado: number;
+  cep: string;
+  cidade: string;
+  estado: string;
   observacao: string;
   cobranca: boolean;
   entrega: boolean;
-  status: StatusEnum;
 }

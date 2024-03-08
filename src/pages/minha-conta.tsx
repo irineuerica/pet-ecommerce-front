@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Container, Stack } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { AccountProfileDetails } from 'src/sections/account/account-profile-details';
+import { MinhaContaSection } from 'src/sections/minha-conta';
 
 const Page = () => (
   <>
@@ -17,7 +17,7 @@ const Page = () => (
     >
       <Container maxWidth="lg">
         <Stack spacing={3}>
-          <AccountProfileDetails />
+          <MinhaContaSection />
         </Stack>
       </Container>
     </Box>

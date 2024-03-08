@@ -24,25 +24,6 @@ export const AccountPopover = (props: { anchorEl: any; onClose: any; open: any }
       open={open}
       PaperProps={{ sx: { width: 200 } }}
     >
-      <Box
-        sx={{
-          py: 1.5,
-          px: 2,
-        }}
-      >
-        <Typography
-          variant="overline"
-          onClick={() => {
-            router.push('/account');
-          }}
-        >
-          Conta
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          Érica
-        </Typography>
-      </Box>
-      <Divider />
       <MenuList
         disablePadding
         dense
@@ -53,6 +34,13 @@ export const AccountPopover = (props: { anchorEl: any; onClose: any; open: any }
           },
         }}
       >
+        <MenuItem
+          onClick={() => {
+            router.push('/minha-conta');
+          }}
+        >
+          Minha conta
+        </MenuItem>
         <MenuItem onClick={handleSignOut}>Sair</MenuItem>
       </MenuList>
     </Popover>

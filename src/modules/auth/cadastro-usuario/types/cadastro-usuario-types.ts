@@ -4,7 +4,7 @@ export type CadastroUsuarioInterface = {
   genero: string;
   dataNascimento: Date;
   cpf: string;
-  dddTelefone: string;
+  ddd: string;
   telefone: string;
   email: string;
   senha: string;
