@@ -1,11 +1,14 @@
 import CardInformacoesBasicas from '@modules/auth/cadastro-usuario/components/cadastro-usuario-form/card-informacoes-basicas';
 import MeusEnderecos from '@modules/usuarios/components/meus-enderecos';
+import { useUsuarioQuery } from '@modules/usuarios/hooks/react-query/useUsuarioQuery';
 import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from 'react';
 
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 export const MinhaContaSection = () => {
+  const {handleSalvarUsuario, handleSalvarUsuarioIsLoading} = useUsuarioQuery();
   const [usuario, setUsuario] = useState<UsuarioInterface>({
     nome: '',
     genero: '',
@@ -25,6 +28,7 @@ export const MinhaContaSection = () => {
 
   useEffect(() => {
     if (usuario) {
+      methods.setValue('id', usuario.id);
       methods.setValue('nome', usuario.nome);
       methods.setValue('genero', usuario.genero);
       methods.setValue('dataNascimento', new Date(usuario.dataNascimento));
@@ -34,6 +38,7 @@ export const MinhaContaSection = () => {
       methods.setValue('email', usuario.email);
     }
 }, [usuario]);
+
 
 
   function getStoredUser() {
@@ -51,13 +56,30 @@ export const MinhaContaSection = () => {
     return [];
   }
 
- 
-
-  console.log('methods', methods.getValues('nome'))
+  const submitUsuario: SubmitHandler<UsuarioInterface> = async (usuarioData) => {
+    try {
+      handleSalvarUsuario({usuario: usuarioData, id: usuario.id ?? 0});
+    } catch (err) {
+        throw err;
+    }
+  };
 
   return (
     <FormProvider {...methods}>
       <CardInformacoesBasicas titulo="Minha conta" isEdit />
+      <LoadingButton
+        fullWidth
+        variant="contained"
+        loading={handleSalvarUsuarioIsLoading}
+        onClick={() =>
+          // @ts-ignore
+          methods.handleSubmit(submitUsuario, (e) => {
+           console.error(e)
+          })()
+        }
+      >
+        Salvar
+      </LoadingButton>
       <MeusEnderecos/>
     </FormProvider>
   );

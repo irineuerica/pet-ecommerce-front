@@ -29,14 +29,14 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
         <SnackbarProvider>
           <AuthProvider>
-            <ThemeProvider theme={theme}>
               <CssBaseline />
               {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
           </AuthProvider>
-        </SnackbarProvider>
+        </SnackbarProvider> 
+      </ThemeProvider>
       </QueryClientProvider>
     </CacheProvider>
   );

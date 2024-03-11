@@ -29,10 +29,10 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
             <FormInputText name="email" label="E-mail" />
           </Grid>
           <Grid item xs={12} md={2}>
-            <FormInputText name="ddd" label="DDD"  mask={{ format: '99' }}/>
+            <FormInputText name="ddd" label="DDD" mask={{ format: '99' }} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <FormInputText name="telefone" label="Celular"  mask={{ format: '99999-9999' }}/>
+            <FormInputText name="telefone" label="Celular" mask={{ format: '99999-9999' }} />
           </Grid>
           <Grid item xs={12} md={6}>
             <FormSelect name="genero" options={generoOptions} label="Gênero" />
@@ -43,12 +43,16 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
           <Grid item xs={12} md={6}>
             <FormInputText name="cpf" label="CPF" mask={{ format: '999.999.999-99' }} disabled={isEdit} />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <FormInputText name="senha" label="Senha" type="password" />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormInputText name="confirmarSenha" label="Confirmar senha" type="password" />
-          </Grid>
+          {!isEdit &&
+            <>
+              <Grid item xs={12} md={6}>
+                <FormInputText name="senha" label="Senha" type="password" />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormInputText name="confirmarSenha" label="Confirmar senha" type="password" />
+              </Grid>
+            </>
+          }
         </Grid>
         <Divider />
       </CardContent>
