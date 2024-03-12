@@ -1,5 +1,7 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import CardDadosCartao from '@modules/usuarios/components/meus-cartoes/card-dados-cartao';
 import { useCartaoQuery } from '@modules/usuarios/hooks/react-query/useCartaoQuery';
+import { cadastroCartao } from '@modules/usuarios/validators/cartao-schema';
 import { LoadingButton } from '@mui/lab';
 import { Button, Stack, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -11,7 +13,9 @@ export const NovoCartaoSection = () => {
   const router = useRouter();
   const theme = useTheme();
   const { handleSalvarCartao, handleSalvarCartaoIsLoading } = useCartaoQuery();
-  const methods = useForm({});
+  const methods = useForm({
+    resolver: yupResolver(cadastroCartao)
+  });
 
   const submitCartao: SubmitHandler<CartaoInterface> = async (cartaoData) => {
     try {
