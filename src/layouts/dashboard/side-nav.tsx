@@ -17,14 +17,49 @@ import {
 } from '@mui/material';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
-import { items } from './config';
+import { items, adminItems } from './config';
 import { SideNavItem } from './side-nav-item';
+import { useEffect, useState } from 'react';
+import useAuth from '@modules/auth/login/hooks/useAuth';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
 
 export const SideNav = (props: { open: boolean; onClose: any }) => {
   const theme = useTheme();
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
+  const [usuario, setUsuario] = useState<UsuarioInterface>({
+    nome: '',
+    genero: '',
+    dataNascimento: new Date(),
+    cpf: '',
+    ddd: '',
+    telefone: '',
+    email: '',
+    senha: '',
+    isAdmin: false,
+    status: true,
+  });
+
+  useEffect(() => {
+    const localUsuario = getStoredUser();
+    setUsuario({ ...localUsuario });
+  }, []);
+
+  function getStoredUser() {
+    if (typeof window !== 'undefined') {
+      const UsuarioLocalStorage = localStorage.getItem('usuario');
+      if (UsuarioLocalStorage !== null) {
+        try {
+          const usuarioData = JSON.parse(UsuarioLocalStorage);
+          return usuarioData;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    return [];
+  }
 
   const content = (
     <Scrollbar
@@ -93,21 +128,43 @@ export const SideNav = (props: { open: boolean; onClose: any }) => {
               m: 0,
             }}
           >
-            {items.map((item) => {
-              const active = item.path ? pathname === item.path : false;
+            {usuario.isAdmin ? (
+              <>
+                {adminItems.map((item) => {
+                  const active = item.path ? pathname === item.path : false;
 
-              return (
-                <SideNavItem
-                  active={active}
-                  // disabled={item.disabled}
-                  // external={item.external}
-                  icon={item.icon}
-                  key={item.title}
-                  path={item.path}
-                  title={item.title}
-                />
-              );
-            })}
+                  return (
+                    <SideNavItem
+                      active={active}
+                      // disabled={item.disabled}
+                      // external={item.external}
+                      icon={item.icon}
+                      key={item.title}
+                      path={item.path}
+                      title={item.title}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {items.map((item) => {
+                  const active = item.path ? pathname === item.path : false;
+
+                  return (
+                    <SideNavItem
+                      active={active}
+                      // disabled={item.disabled}
+                      // external={item.external}
+                      icon={item.icon}
+                      key={item.title}
+                      path={item.path}
+                      title={item.title}
+                    />
+                  );
+                })}
+              </>
+            )}
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />

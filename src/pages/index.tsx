@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
-
 const Page = () => (
   <>
     <Head>

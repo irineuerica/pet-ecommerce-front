@@ -2,13 +2,12 @@ import { createContext } from 'react';
 import useAuth from '../hooks/useAuth';
 import { CadastroUsuarioInterface } from '@modules/auth/cadastro-usuario/types/cadastro-usuario-types';
 
-
 type Props = {
   children: React.ReactNode;
 };
 
 type AuthContextData = {
-  usuario: CadastroUsuarioInterface
+  usuario: CadastroUsuarioInterface;
   handleLogin: () => void;
   handleLogout: () => void;
 };
@@ -20,7 +19,7 @@ function AuthProvider({ children }: Props) {
 
   return (
     <AuthContext.Provider
-    // @ts-ignore
+      // @ts-ignore
       value={{ usuario, loading, authenticated, handleUserLogin, handleLogout }}
     >
       {children}

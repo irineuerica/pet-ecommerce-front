@@ -7,7 +7,6 @@ import { cadastroUsuarioSchema } from './validators/cadastro-usuario-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'notistack';
 
-
 export default function CadastroUsuarioContent() {
   const { handleCadastrarUsuario, handleCadastrarUsuarioIsLoading } = useCadastroUsuario();
   const { enqueueSnackbar } = useSnackbar();
@@ -19,7 +18,7 @@ export default function CadastroUsuarioContent() {
     try {
       handleCadastrarUsuario(usuario);
     } catch (err) {
-        throw err;
+      throw err;
     }
   };
 

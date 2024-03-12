@@ -21,3 +21,24 @@ export const items = [
     ),
   },
 ];
+
+export const adminItems = [
+  {
+    title: 'Pagina inicial',
+    path: '/',
+    icon: (
+      <SvgIcon fontSize="small">
+        <PetsOutlinedIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: 'Usuários',
+    path: '/admin/usuarios',
+    icon: (
+      <SvgIcon fontSize="small">
+        <PetsOutlinedIcon />
+      </SvgIcon>
+    ),
+  },
+];

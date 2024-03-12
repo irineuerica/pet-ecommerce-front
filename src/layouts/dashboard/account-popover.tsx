@@ -1,16 +1,19 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { MenuItem, MenuList, Popover } from '@mui/material';
+import { PATH_AUTH, PATH_CLIENTE } from 'src/routes/paths';
+import useAuth from '@modules/auth/login/hooks/useAuth';
 
 export const AccountPopover = (props: { anchorEl: any; onClose: any; open: any }) => {
   const { anchorEl, onClose, open } = props;
+  const { handleLogout, authenticated } = useAuth();
   const router = useRouter();
 
   const handleSignOut = useCallback(() => {
     onClose?.();
-
-    router.push('/auth/login');
+    handleLogout();
+    router.push(PATH_AUTH.login);
   }, [onClose, router]);
 
   return (
@@ -36,10 +39,14 @@ export const AccountPopover = (props: { anchorEl: any; onClose: any; open: any }
       >
         <MenuItem
           onClick={() => {
-            router.push('/minha-conta');
+            if (authenticated) {
+              router.push(PATH_CLIENTE.minha_conta.root);
+            } else {
+              router.push(PATH_AUTH.login);
+            }
           }}
         >
-          Minha conta
+          {authenticated ? 'Minha conta' : 'Logar'}
         </MenuItem>
         <MenuItem onClick={handleSignOut}>Sair</MenuItem>
       </MenuList>

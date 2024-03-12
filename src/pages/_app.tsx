@@ -9,6 +9,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { SnackbarProvider } from 'notistack';
 import { AuthProvider } from '@modules/auth/login/contexts/authContext';
+import { DialogConfirmationProvider } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -29,14 +30,16 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <AuthProvider>
-              <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
-          </AuthProvider>
-        </SnackbarProvider> 
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <DialogConfirmationProvider>
+            <SnackbarProvider>
+              <AuthProvider>
+                <CssBaseline />
+                {getLayout(<Component {...pageProps} />)}
+              </AuthProvider>
+            </SnackbarProvider>
+          </DialogConfirmationProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </CacheProvider>
   );

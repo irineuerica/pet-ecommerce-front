@@ -1,6 +1,5 @@
-import { api } from "src/config/api.config";
-import { handleLoginProps } from "../hooks/useAuth";
-
+import { api } from 'src/config/api.config';
+import { handleLoginProps } from '../hooks/useAuth';
 
 export class LoginService {
   static instance: LoginService;
@@ -15,14 +14,13 @@ export class LoginService {
     return this.instance;
   }
 
-  async handleLogin({email, senha}: handleLoginProps) {
+  async handleLogin({ email, senha }: handleLoginProps) {
     try {
-      const { data } = await api.post(`/login`, {email, senha});
+      const { data } = await api.post(`/login`, { email, senha });
 
       return data;
     } catch (err) {
       throw err;
     }
   }
-
 }

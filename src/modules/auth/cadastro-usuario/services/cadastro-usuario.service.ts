@@ -1,5 +1,5 @@
-import { api } from "src/config/api.config";
-import { CadastroUsuarioInterface } from "../types/cadastro-usuario-types";
+import { api } from 'src/config/api.config';
+import { CadastroUsuarioInterface } from '../types/cadastro-usuario-types';
 
 export class CadastroUsuarioService {
   static instance: CadastroUsuarioService;
@@ -16,12 +16,11 @@ export class CadastroUsuarioService {
 
   async handleCadastrarUsuario(usuario: CadastroUsuarioInterface) {
     try {
-      const { data } = await api.post(`/cadastro`, {usuario});
+      const { data } = await api.post(`/cadastro`, { usuario });
 
       return data;
     } catch (err) {
       throw err;
     }
   }
-
 }

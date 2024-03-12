@@ -11,6 +11,8 @@ export type UsuarioInterface = {
   telefone: string;
   email: string;
   senha: string;
+  isAdmin: boolean;
+  status: boolean;
   // enderecos: EnderecoInterface[];
   // formasPagamento: CartaoInterface[];
 };

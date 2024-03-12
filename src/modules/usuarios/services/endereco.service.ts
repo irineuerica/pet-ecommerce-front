@@ -2,27 +2,17 @@ import { api } from 'src/config/api.config';
 import { UsuarioInterface } from '../interfaces/usuario.type';
 import { EnderecoInterface } from 'src/interfaces/endereco.interface';
 
-export class UsuarioService {
-  static instance: UsuarioService;
+export class EnderecoService {
+  static instance: EnderecoService;
 
   private constructor() {}
 
   static getInstance() {
     if (!this.instance) {
-      this.instance = new UsuarioService();
+      this.instance = new EnderecoService();
     }
 
     return this.instance;
-  }
-
-  async handleSalvarUsuario({ usuario, id }: { usuario: UsuarioInterface; id: number }) {
-    try {
-      const { data } = await api.put(`/user/${id}`, { usuario });
-
-      return data;
-    } catch (err) {
-      throw err;
-    }
   }
 
   async handleSalvarEndereco({ endereco, id }: { endereco: EnderecoInterface; id?: number }) {
@@ -39,30 +29,18 @@ export class UsuarioService {
     }
   }
 
-  async listAll() {
+  async handleDeletarEndereco(id: number) {
     try {
-      const { data } = await api.get(`/user/`);
-
+      const { data } = await api.delete(`/endereco/${id}`);
       return data;
     } catch (err) {
       throw err;
     }
   }
 
-  async handleAlterarStatus({ status, id }: { status: boolean; id: number }) {
+  async getEnderecos() {
     try {
-      const { data } = await api.put(`/user/status/${id}`, { status });
-
-      return data;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async handleSetAdmin(id: number) {
-    try {
-      const { data } = await api.put(`/user/admin/${id}`);
-
+      const { data } = await api.get<EnderecoInterface[]>(`/endereco`);
       return data;
     } catch (err) {
       throw err;

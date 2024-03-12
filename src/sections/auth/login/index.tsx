@@ -66,7 +66,7 @@ export default function LoginSection() {
           </Stack>
           <Stack spacing={3} py={3}>
             <FormInputText name="email" label="E-mail" />
-            <FormInputText name="senha" label="Senha" type='password' />
+            <FormInputText name="senha" label="Senha" type="password" />
           </Stack>
           <LoadingButton
             loading={loading}

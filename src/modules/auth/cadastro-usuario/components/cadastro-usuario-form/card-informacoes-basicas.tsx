@@ -10,7 +10,6 @@ interface CardInformacoesBasicasProps {
 }
 
 export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformacoesBasicasProps) {
-
   const generoOptions = [
     { label: GeneroEnum.FEMININO, value: GeneroEnum.FEMININO },
     { label: GeneroEnum.MASCULINO, value: GeneroEnum.MASCULINO },
@@ -43,7 +42,7 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
           <Grid item xs={12} md={6}>
             <FormInputText name="cpf" label="CPF" mask={{ format: '999.999.999-99' }} disabled={isEdit} />
           </Grid>
-          {!isEdit &&
+          {!isEdit && (
             <>
               <Grid item xs={12} md={6}>
                 <FormInputText name="senha" label="Senha" type="password" />
@@ -52,7 +51,7 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
                 <FormInputText name="confirmarSenha" label="Confirmar senha" type="password" />
               </Grid>
             </>
-          }
+          )}
         </Grid>
         <Divider />
       </CardContent>
