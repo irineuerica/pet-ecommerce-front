@@ -3,7 +3,7 @@ import { api } from 'src/config/api.config';
 
 import { useRouter } from 'next/router';
 import { useAuthQuery } from './react-query/useAuthQuery';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
 import { PATH_CLIENTE } from 'src/routes/paths';
 
 export interface handleLoginProps {
@@ -61,6 +61,7 @@ export default function useAuth() {
     localStorage.removeItem('usuario');
     api.defaults.headers.Authorization = null;
   }
+  
 
-  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken };
+  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken, setUsuario};
 }

@@ -1,5 +1,5 @@
 import { api } from 'src/config/api.config';
-import { UsuarioInterface } from '../interfaces/usuario.type';
+import { UsuarioInterface } from '../interfaces/usuario.interface';
 import { EnderecoInterface } from 'src/interfaces/endereco.interface';
 
 export class UsuarioService {
@@ -62,6 +62,17 @@ export class UsuarioService {
   async handleSetAdmin(id: number) {
     try {
       const { data } = await api.put(`/user/admin/${id}`);
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+
+  async handleAlterarSenha(id: number, senha: string) {
+    try {
+      const { data } = await api.put(`/user/alterar-senha/${id}`, {senha});
 
       return data;
     } catch (err) {

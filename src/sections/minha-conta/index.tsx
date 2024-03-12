@@ -1,10 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import CardInformacoesBasicas from '@modules/auth/cadastro-usuario/components/cadastro-usuario-form/card-informacoes-basicas';
+import MeusCartoes from '@modules/usuarios/components/meus-cartoes';
 import MeusEnderecos from '@modules/usuarios/components/meus-enderecos';
 import { useUsuarioQuery } from '@modules/usuarios/hooks/react-query/useUsuarioQuery';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
 import { alteracaoUsuarioSchema } from '@modules/usuarios/validators/usuario-schema';
 import { LoadingButton } from '@mui/lab';
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -23,6 +25,8 @@ export const MinhaContaSection = () => {
     telefone: '',
     email: '',
     senha: '',
+    isAdmin: false,
+    status: true,
   });
   const methods = useForm({
     resolver: yupResolver(alteracaoUsuarioSchema),
@@ -35,6 +39,7 @@ export const MinhaContaSection = () => {
 
   useEffect(() => {
     if (usuario) {
+      // @ts-ignore
       methods.setValue('id', usuario.id);
       methods.setValue('nome', usuario.nome);
       methods.setValue('genero', usuario.genero);
@@ -87,7 +92,22 @@ export const MinhaContaSection = () => {
       >
         Salvar
       </LoadingButton>
+      <Button
+        fullWidth
+        color="secondary"
+        variant="contained"
+        onClick={() =>
+          // @ts-ignore
+          router.push({
+            pathname: PATH_CLIENTE.minha_conta.alterar_senha,
+            query: { id: usuario.id },
+          })
+        }
+      >
+        Alterar Senha
+      </Button>
       <MeusEnderecos />
+      <MeusCartoes />
     </FormProvider>
   );
 };

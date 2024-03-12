@@ -9,3 +9,13 @@ export const alteracaoUsuarioSchema = yup.object().shape({
   telefone: yup.string().required('Celular é obrigatório'),
   email: yup.string().required('E-mail é obrigatório'),
 });
+
+
+export const alteracaoSenhaUsuarioSchema = yup.object().shape({
+  id: yup.number().required('Id é obrigatório'),
+  senha: yup.string().required('Senha é obrigatório'),
+  confirmaSenha: yup
+  .string()
+  .required('Confirmação de senha é obrigatória')
+  .oneOf([yup.ref('senha')], 'Senhas não coincidem'),
+});

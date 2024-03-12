@@ -21,7 +21,7 @@ import { items, adminItems } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useEffect, useState } from 'react';
 import useAuth from '@modules/auth/login/hooks/useAuth';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
 
 export const SideNav = (props: { open: boolean; onClose: any }) => {
   const theme = useTheme();

@@ -3,7 +3,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useSnackbar } from 'notistack';
 import { HttpStatusCode } from 'axios';
 import { AxiosCustomError } from 'src/@types/axios.types';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
 import { UsuarioService } from '@modules/usuarios/services/usuario.service';
 import { UsuarioKeysEnum } from '@modules/usuarios/constants/usuario-keys.enums';
 
@@ -84,6 +84,31 @@ export function useUsuarioQuery() {
     },
   );
 
+
+  const { mutateAsync: handleAlterarSenha, isLoading: handleAlterarSenhaIsLoading } = useMutation(
+    ({ id, senha }: { id: number, senha: string }) => UsuarioService.getInstance().handleAlterarSenha(id, senha),
+    {
+      onError(err: AxiosCustomError) {
+        if (err.statusCode === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar('Tivemos problemas ao salvar os dados. Tente novamente', {
+            variant: 'error',
+          });
+        } else {
+          enqueueSnackbar(err.response?.data.message, {
+            variant: 'error',
+          });
+        }
+      },
+      onSuccess() {
+        enqueueSnackbar('Dados salvos com sucesso!', {
+          variant: 'success',
+          style: { whiteSpace: 'pre-line' },
+          autoHideDuration: 10000,
+        });
+      },
+    },
+  );
+
   const { data: usuarios, isLoading: usuariosIsLoading } = useQuery([UsuarioKeysEnum.GET_ALL], () =>
     UsuarioService.getInstance().listAll(),
   );
@@ -97,5 +122,8 @@ export function useUsuarioQuery() {
     usuariosIsLoading,
     handleSetAdmin,
     handleSetAdminIsLoading,
+    handleAlterarSenha,
+    handleAlterarSenhaIsLoading
+
   };
 }

@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { UsuarioInterface } from '../interfaces/usuario.type';
+import { UsuarioInterface } from '../interfaces/usuario.interface';
 
 type UsuarioContextData = {
   usuario: UsuarioInterface | {};

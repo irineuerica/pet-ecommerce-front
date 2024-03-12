@@ -1,5 +1,4 @@
 import { api } from 'src/config/api.config';
-import { UsuarioInterface } from '../interfaces/usuario.type';
 import { EnderecoInterface } from 'src/interfaces/endereco.interface';
 
 export class EnderecoService {

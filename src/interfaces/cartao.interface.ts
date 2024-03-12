@@ -1,11 +1,13 @@
-import { StatusEnum } from 'src/constants/enums/status.enum';
+import { UsuarioService } from '@modules/usuarios/services/usuario.service';
 
 export type CartaoInterface = {
-  numero: number;
+  id?: number;
+  numero: string;
   nome: string;
   bandeira: string;
+  vencimentoMes: number;
+  vencimentoAno: number;
   cvv?: string;
   principal: boolean;
-  status: StatusEnum;
-  cliente_id?: number;
+  usuario: UsuarioService;
 };

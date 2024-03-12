@@ -16,5 +16,7 @@ export const PATH_CLIENTE = {
   minha_conta: {
     root: path(ROOT_CLIENTE, '/minha-conta'),
     novo_endereco: path(ROOT_CLIENTE, '/minha-conta/novo-endereco'),
+    novo_cartao: path(ROOT_CLIENTE, '/minha-conta/novo-cartao'),
+    alterar_senha:  path(ROOT_CLIENTE, '/minha-conta/alterar-senha'),
   },
 };

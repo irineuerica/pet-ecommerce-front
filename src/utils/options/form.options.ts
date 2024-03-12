@@ -1,4 +1,5 @@
 import { CIDADES } from 'src/constants/cidades';
+import { BandeirasEnum } from 'src/constants/enums/bandeiras.enum';
 import { TiposLogradouroEnum } from 'src/constants/enums/tipos-logradouro.enums';
 import { TiposResidenciaEnum } from 'src/constants/enums/tipos-residencia.enum';
 import { ESTADOS } from 'src/constants/estados';
@@ -22,3 +23,7 @@ export function getCidadesByEstadoOptions(selectedEstado: string) {
     return { label: cidade.nome, value: cidade.nome };
   });
 }
+
+export const BandeirasOption = BandeirasEnum.map((bandeira) => {
+  return { label: bandeira.nome, value: bandeira.nome };
+});

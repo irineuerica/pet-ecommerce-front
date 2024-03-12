@@ -1,7 +1,7 @@
 import { CartaoInterface } from 'src/interfaces/cartao.interface';
 import { EnderecoInterface } from 'src/interfaces/endereco.interface';
 
-export type UsuarioInterface = {
+export interface UsuarioInterface {
   id?: number;
   nome: string;
   genero: string;

@@ -1,7 +1,7 @@
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import { useUsuarioQuery } from '@modules/usuarios/hooks/react-query/useUsuarioQuery';
 import { useMemo } from 'react';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.type';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
 import Lottie from 'lottie-react';
 import loadingAnimation from 'src/animations/cat_loading.json';
 import moment from 'moment';
