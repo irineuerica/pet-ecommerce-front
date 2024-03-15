@@ -4,6 +4,7 @@ export interface ProdutosInterface {
     descricao: string,
     valor: number,
     categoria_id: number,
-    criado_em?: Date
+    imagem?: string,
+    criado_em?: Date,
     atualizado_em?: Date
 }
