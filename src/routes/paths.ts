@@ -19,4 +19,21 @@ export const PATH_CLIENTE = {
     novo_cartao: path(ROOT_CLIENTE, '/minha-conta/novo-cartao'),
     alterar_senha:  path(ROOT_CLIENTE, '/minha-conta/alterar-senha'),
   },
+  carrinho: path(ROOT_CLIENTE, '/carrinho'),
+  dados_pedido: path(ROOT_CLIENTE, '/form-dados-pedido'),
+  meus_pedidos: path(ROOT_CLIENTE, '/meus-pedidos'),
+  detalhe_pedido: path(ROOT_CLIENTE, '/meus-pedidos/detalhe-pedido'),
+  meus_cupons: path(ROOT_CLIENTE, '/meus-cupons'),
 };
+
+export const PATH_ADMIN = {
+  root: ROOT_ADMIN,
+  pedidos: path(ROOT_ADMIN, '/pedidos'),
+  detalhe_pedido: path(ROOT_ADMIN, '/pedidos/detalhe-pedido'),
+  usuarios: path(ROOT_ADMIN, '/usuarios'),
+  dashboard: path(ROOT_ADMIN, '/dashboard'),
+  produtos:  path(ROOT_ADMIN, '/produtos'),
+  novo_produto:  path(ROOT_ADMIN, '/produtos/form-produto'),
+  estoque:  path(ROOT_ADMIN, '/estoque'),
+  cupons:  path(ROOT_ADMIN, '/cupons'),
+}

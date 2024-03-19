@@ -41,7 +41,7 @@ export default function useAuth() {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setUsuario(usuario);
     setAuthenticated(true);
-    router.push(PATH_CLIENTE.minha_conta.root);
+    router.push('/');
   }
 
   async function handleUserLoginToken({ token, usuario }: handleUserLoginToken) {
