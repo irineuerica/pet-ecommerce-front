@@ -13,9 +13,22 @@ export const alteracaoUsuarioSchema = yup.object().shape({
 
 export const alteracaoSenhaUsuarioSchema = yup.object().shape({
   id: yup.number().required('Id é obrigatório'),
-  senha: yup.string().required('Senha é obrigatório'),
+  senha: yup.string().required('Senha é obrigatório').
+    min(8, "Deve conter pelo menos 8 caracteres")
+    .matches(
+      /^(?=.*[a-z])/,
+      "Deve conter letras minúsculas"
+    )
+    .matches(
+      /^(?=.*[A-Z])/,
+      "Deve conter letras maiúsculas"
+    )
+    .matches(
+      /^(?=.*[!@#\$%\^&\*])/,
+      "Deve conter caracteres especiais"
+    ),
   confirmaSenha: yup
-  .string()
-  .required('Confirmação de senha é obrigatória')
-  .oneOf([yup.ref('senha')], 'Senhas não coincidem'),
+    .string()
+    .required('Confirmação de senha é obrigatória')
+    .oneOf([yup.ref('senha')], 'Senhas não coincidem'),
 });
