@@ -1,36 +1,34 @@
-import React, { useState } from 'react';
-import { ProdutosInterface } from 'src/interfaces/produtos.interface';
-import mockImage from '../../public/mockProductImg.png';
-import Image from 'next/image';
+import React, { useContext, useState } from 'react';
+import { ProdutoInterface } from 'src/interfaces/produtos.interface';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
-import { Button, CardActionArea, TextField, Typography, useTheme } from '@mui/material';
+import { Button, CardActionArea, CardMedia, TextField, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { PATH_CLIENTE } from 'src/routes/paths';
+import { formatCurrency } from 'src/utils/formatMoeda';
+import PedidoContext from '@modules/pedido/contexts/PedidoContext';
 
-const ProductCard = ({
-  id,
-  nome,
-  descricao,
-  valor,
-  imagem,
-  categoria_id,
-  criado_em,
-  atualizado_em,
-}: ProdutosInterface) => {
-    const router = useRouter()
+interface ProductCardrops {
+  produto: ProdutoInterface;
+}
+
+const ProductCard = ({ produto }: ProductCardrops) => {
+  const router = useRouter();
   const theme = useTheme();
-  const [quantity, setQuantity] = useState(0);
-
+  const pedidoContext = useContext(PedidoContext);
   return (
     <div>
       <Card variant="outlined">
-        <CardContent sx={{ minHeight: 450 }}>
-          <Image src={mockImage} width={200} alt="imagem do produto de gatito" />
+        <CardMedia
+          component="img"
+          height="250"
+          image={`/assets/products/${produto.categoria.id}.png`}
+          alt={`imagem do produto ${produto.nome}`}
+        />
+        <CardContent sx={{ minHeight: 250 }}>
           <Typography fontSize={18} fontWeight={'bold'} color={theme.palette.secondary.main} pt={2}>
-            {nome}
+            {produto.nome}
           </Typography>
           <Typography
             fontSize={14}
@@ -43,15 +41,22 @@ const ProductCard = ({
               WebkitLineClamp: 3,
             }}
           >
-            <b>Descrição:</b> {descricao}
+            <b>Descrição:</b> {produto.descricao}
           </Typography>
 
           <Typography fontSize={18} fontWeight={'bold'} color={theme.palette.primary.dark} pt={2}>
-            R$ {valor}
+            {formatCurrency(produto?.valor)}
           </Typography>
         </CardContent>
         <CardActionArea>
-          <Button fullWidth sx={{py: 2}} onClick={()=> router.push(PATH_CLIENTE.carrinho)}>
+          <Button
+            fullWidth
+            sx={{ py: 2 }}
+            onClick={() => {
+              pedidoContext?.adicionar(produto);
+              router.push(PATH_CLIENTE.carrinho);
+            }}
+          >
             <AddShoppingCartIcon /> Adicionar ao Carrinho
           </Button>
         </CardActionArea>

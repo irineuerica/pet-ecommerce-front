@@ -1,10 +1,12 @@
-export interface ProdutosInterface {
+import { CategoriaInterface } from "./categoria.interface"
+import { EstoqueInterface } from "./estoque.interface";
+
+export interface ProdutoInterface {
     id?: number,
     nome: string,
     descricao: string,
     valor: number,
-    categoria_id: number,
+    categoria: CategoriaInterface,
     imagem?: string,
-    criado_em?: Date,
-    atualizado_em?: Date
+    estoque: EstoqueInterface;
 }

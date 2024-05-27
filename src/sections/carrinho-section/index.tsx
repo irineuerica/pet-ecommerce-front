@@ -1,57 +1,21 @@
-import {
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  Divider,
-  Button,
-  Snackbar,
-  useTheme,
-  Stack,
-} from '@mui/material';
-import React, { useState } from 'react';
+import { Container, Grid, Card, CardContent, Typography, TextField, Divider, Button, useTheme } from '@mui/material';
+import React, { useContext, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import mockImage from 'public/mockProductImg.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PATH_CLIENTE } from '../../routes/paths';
+import { ItemCarrinhoInterface } from 'src/interfaces/carrinho.interface';
+import { formatCurrency } from 'src/utils/formatMoeda';
+import PedidoContext from '@modules/pedido/contexts/PedidoContext';
+import { CupomInterface } from 'src/interfaces/cupom.interface';
 
 const MeuCarrinhoSection = () => {
   const theme = useTheme();
   const router = useRouter();
-  const [cupom, setCupom] = useState(null);
+  const [cupom, setCupom] = useState('');
+  const pedidoContext = useContext(PedidoContext);
   //utilizado para navegação das paginas
-
-  const mock = [
-    {
-      id: 1,
-      nome: 'orci',
-      descricao:
-        'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci.',
-      valor: 158.77,
-      categoria_id: 2,
-    },
-    {
-      id: 2,
-      nome: 'metus sapien',
-      descricao: 'Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.',
-      valor: 30.41,
-      categoria_id: 4,
-    },
-  ];
-
-  const mockDelete = [
-    {
-      id: 4,
-      nome: 'libsddro ut',
-      descricao:
-        'Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.',
-      valor: 106.2,
-      categoria_id: 3,
-    },
-  ];
 
   return (
     <Container maxWidth={false}>
@@ -62,41 +26,53 @@ const MeuCarrinhoSection = () => {
               <Typography color={theme.palette.primary.dark} fontWeight={'bold'} fontSize={20} pb={2}>
                 Carrinho
               </Typography>
-              {mock?.map((item, index) => <ItemCarrinho item={item} disabled={false} />)}
+              {pedidoContext?.carrinho?.itens?.map((item, index) => <ItemCarrinho item={item} disabled={false} />)}
               <Divider />
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
               <Typography color={theme.palette.error.main} fontWeight={'bold'} fontSize={20}>
                 Itens removidos do carrinho (tempo máximo)
               </Typography>
-
-              {mockDelete?.map((item, index) => <ItemCarrinho item={item} index={index} disabled={true} />)}
+              {pedidoContext?.itensCancelados?.itens?.map((item: ItemCarrinhoInterface) => (
+                <ItemCarrinho item={item} disabled={true} />
+              ))}
               <Divider />
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <TextField name="cupom" id="cupom" label="Cupom" fullWidth value={cupom} disabled/>
+                  <TextField
+                    name="cupom"
+                    id="cupom"
+                    label="Cupom"
+                    fullWidth
+                    value={cupom}
+                    onChange={(value) => setCupom(value.target.value)}
+                  />
                 </Grid>
                 <Grid item xs={2}>
-                  <Button disabled>Adicionar</Button>
+                  <Button onClick={() => pedidoContext?.adicionarCupom(cupom)}>Adicionar</Button>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
         <Grid item lg={6} sm={6} xl={6} xs={12}>
-          <Resumo/>
+          <Resumo />
         </Grid>
       </Grid>
       <Grid item lg={12} sm={12} xl={12} xs={12}>
         <Grid container spacing={3} pb={3}>
           <Grid item xs={6} />
           <Grid item xs={3}>
-            <Button variant='contained' onClick={()=> router.push('/')}>Adicionar mais produtos</Button>
+            <Button variant="contained" onClick={() => router.push('/')}>
+              Adicionar mais produtos
+            </Button>
           </Grid>
           <Grid item xs={3}>
-            <Button variant='contained' onClick={()=> router.push(PATH_CLIENTE.dados_pedido)}>Continuar</Button>
+            <Button variant="contained" onClick={() => router.push(PATH_CLIENTE.dados_pedido)}>
+              Continuar
+            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -106,8 +82,14 @@ const MeuCarrinhoSection = () => {
 
 export default MeuCarrinhoSection;
 
-export function ItemCarrinho({ item, disabled }) {
+interface ItemCarrinhoProps {
+  item: ItemCarrinhoInterface;
+  disabled: boolean;
+}
+
+export function ItemCarrinho({ item, disabled = false }: ItemCarrinhoProps) {
   const theme = useTheme();
+  const pedidoContext = useContext(PedidoContext);
   return (
     <Card sx={{ mb: 3 }}>
       <CardContent>
@@ -116,18 +98,32 @@ export function ItemCarrinho({ item, disabled }) {
             <Image src={mockImage} width={50} height={50} alt="imagem do produto de gatito" />
           </Grid>
           <Grid item xs={6}>
-            <Typography color={theme.palette.primary.dark}>{item?.nome}</Typography>
+            <Typography color={theme.palette.primary.dark}>{item?.produto?.nome}</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography color={theme.palette.primary.dark}>R${item?.valor}</Typography>
-          </Grid>
+            <Typography color={theme.palette.primary.dark}>R${item?.produto?.valor}</Typography>
+          </Grid> 
           {disabled === false && (
             <>
               <Grid item xs={2}>
-                <TextField label="Quantidade" type="number" id="qtde" value={1} />
+                <TextField
+                  label="Quantidade"
+                  type="number"
+                  id="qtde"
+                  value={item?.quantidade}
+                  onChange={(value) => {
+                    pedidoContext?.alterarQuantidade(item?.produto?.id || 0, Number(value.target.value));
+                  }}
+                  InputProps={{
+                    inputProps: {
+                      max: item?.produto?.estoque?.quantidadeAtual,
+                      min: 0,
+                    },
+                  }}
+                />
               </Grid>
               <Grid item xs={1}>
-                <DeleteIcon color='error'/>
+                <DeleteIcon color="error" onClick={() => pedidoContext?.deletarItem(item?.produto?.id || 0)} />
               </Grid>
             </>
           )}
@@ -139,6 +135,8 @@ export function ItemCarrinho({ item, disabled }) {
 
 export function Resumo() {
   const theme = useTheme();
+  const pedidoContext = useContext(PedidoContext);
+
   return (
     <Grid container spacing={3}>
       <Grid item lg={12} sm={12} xl={12} xs={12} pb={3}>
@@ -148,25 +146,29 @@ export function Resumo() {
       </Grid>
       <Grid item lg={12} sm={12} xl={12} xs={12}>
         <Typography color={theme.palette.secondary.dark} fontSize={16}>
-          <b>Cupom:</b> 9227-aaa - R$10.20
+          <b>Cupom:</b>
+        </Typography>
+        {pedidoContext?.pagamento?.cupons?.map((cupom: CupomInterface) => (
+          <Typography color={theme.palette.secondary.dark} fontSize={16}>
+            {cupom.codigo} - {formatCurrency(cupom.valor)}
+          </Typography>
+        ))}
+      </Grid>
+      <Grid item lg={12} sm={12} xl={12} xs={12}>
+        <Typography color={theme.palette.primary.dark} fontSize={16}>
+          <b>Subtotal:</b> {formatCurrency(pedidoContext?.subtotal || 0)}
         </Typography>
       </Grid>
       <Grid item lg={12} sm={12} xl={12} xs={12}>
         <Typography color={theme.palette.primary.dark} fontSize={16}>
-          <b>Subtotal:</b> R$128,36
+          <b>Descontos:</b> {formatCurrency(pedidoContext?.desconto || 0)}
         </Typography>
       </Grid>
       <Grid item lg={12} sm={12} xl={12} xs={12}>
         <Typography color={theme.palette.primary.dark} fontSize={16}>
-          <b>Descontos:</b> R$10.20
-        </Typography>
-      </Grid>
-      <Grid item lg={12} sm={12} xl={12} xs={12}>
-        <Typography color={theme.palette.primary.dark} fontSize={16}>
-          <b>Total:</b> R$118,16
+          <b>Total:</b> {formatCurrency(pedidoContext?.total || 0)}
         </Typography>
       </Grid>
     </Grid>
   );
 }
-

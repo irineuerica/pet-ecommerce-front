@@ -15,6 +15,19 @@ export const formatMoeda = (numero?: number) => {
   return `R$ ${parteInteira}${parteDecimal}`;
 };
 
+export function formatCurrency(value: number) {
+  if (!value) {
+    return 'R$ 0,00';
+  }
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  });
+  return formatter.format(value);
+}
+
+
 export const formatSemSimbolo = (numero: number) => {
   const numeroString = numero.toFixed(6);
 

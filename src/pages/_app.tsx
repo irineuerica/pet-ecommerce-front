@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { SnackbarProvider } from 'notistack';
 import { AuthProvider } from '@modules/auth/login/contexts/authContext';
 import { DialogConfirmationProvider } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
+import { PedidoProvider } from '@modules/pedido/contexts/PedidoContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -34,8 +35,10 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
           <DialogConfirmationProvider>
             <SnackbarProvider>
               <AuthProvider>
-                <CssBaseline />
-                {getLayout(<Component {...pageProps} />)}
+                <PedidoProvider>
+                  <CssBaseline />
+                  {getLayout(<Component {...pageProps} />)}
+                </PedidoProvider>
               </AuthProvider>
             </SnackbarProvider>
           </DialogConfirmationProvider>
