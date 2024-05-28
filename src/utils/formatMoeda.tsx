@@ -27,7 +27,6 @@ export function formatCurrency(value: number) {
   return formatter.format(value);
 }
 
-
 export const formatSemSimbolo = (numero: number) => {
   const numeroString = numero.toFixed(6);
 

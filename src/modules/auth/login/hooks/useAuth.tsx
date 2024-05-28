@@ -61,7 +61,6 @@ export default function useAuth() {
     localStorage.removeItem('usuario');
     api.defaults.headers.Authorization = null;
   }
-  
 
-  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken, setUsuario};
+  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken, setUsuario };
 }

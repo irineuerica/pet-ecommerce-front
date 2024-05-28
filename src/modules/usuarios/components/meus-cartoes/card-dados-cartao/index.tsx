@@ -8,7 +8,7 @@ export default function CardDadosCartao() {
   return (
     <Grid container spacing={2} py={2}>
       <Grid item xs={12} md={8}>
-        <FormInputText name="numero" label="Número cartão" mask={{ format: '9999 9999 9999 9999' }}/>
+        <FormInputText name="numero" label="Número cartão" mask={{ format: '9999 9999 9999 9999' }} />
       </Grid>
       <Grid item xs={12} md={4}>
         <FormSelect name="bandeira" options={BandeirasOption} label="Bandeira" />

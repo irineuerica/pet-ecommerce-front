@@ -1,6 +1,5 @@
-
 export interface AlterarSenhaInterface {
-  id: number; 
+  id: number;
   senha: string;
   confirmaSenha: string;
-};
+}

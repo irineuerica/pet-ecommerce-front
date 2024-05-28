@@ -84,9 +84,8 @@ export function useUsuarioQuery() {
     },
   );
 
-
   const { mutateAsync: handleAlterarSenha, isLoading: handleAlterarSenhaIsLoading } = useMutation(
-    ({ id, senha }: { id: number, senha: string }) => UsuarioService.getInstance().handleAlterarSenha(id, senha),
+    ({ id, senha }: { id: number; senha: string }) => UsuarioService.getInstance().handleAlterarSenha(id, senha),
     {
       onError(err: AxiosCustomError) {
         if (err.statusCode === HttpStatusCode.InternalServerError) {
@@ -123,7 +122,6 @@ export function useUsuarioQuery() {
     handleSetAdmin,
     handleSetAdminIsLoading,
     handleAlterarSenha,
-    handleAlterarSenhaIsLoading
-
+    handleAlterarSenhaIsLoading,
   };
 }

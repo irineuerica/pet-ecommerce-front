@@ -55,7 +55,7 @@ export function ModalListaEndereco({ open, setOpen, isCobranca = false }: ModalP
                         } else {
                           pedidoContext?.setEndereco(endereco);
                         }
-                        setOpen(false)
+                        setOpen(false);
                       }}
                       sx={{
                         textAlign: 'center',

@@ -3,38 +3,17 @@
     "baseUrl": ".",
     "target": "es5",
     "downlevelIteration": true,
-    "lib": [
-      "es5",
-      "dom"
-    ],
+    "lib": ["es5", "dom"],
     "paths": {
-      "@configs/*": [
-        "src/configs/*"
-      ],
-      "@modules/*": [
-        "src/modules/*"
-      ],
-      "@shared-types/*": [
-        "src/shared/types/*"
-      ],
-      "@shared/*": [
-        "src/shared/*"
-      ],
-      "@decorators/*": [
-        "src/shared/decorators/*"
-      ],
-      "@providers/*": [
-        "src/shared/providers/*"
-      ],
-      "@constants/*": [
-        "src/shared/constants/*"
-      ],
-      "@libs/*": [
-        "libs/*"
-      ],
-      "@images/*": [
-        "public/assets/images/*"
-      ]
+      "@configs/*": ["src/configs/*"],
+      "@modules/*": ["src/modules/*"],
+      "@shared-types/*": ["src/shared/types/*"],
+      "@shared/*": ["src/shared/*"],
+      "@decorators/*": ["src/shared/decorators/*"],
+      "@providers/*": ["src/shared/providers/*"],
+      "@constants/*": ["src/shared/constants/*"],
+      "@libs/*": ["libs/*"],
+      "@images/*": ["public/assets/images/*"]
     },
     "strict": true,
     "noEmit": true,
@@ -55,15 +34,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "typings/**/*.ts",
-  ],
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/**/*.ts", "test/**/*.ts", "typings/**/*.ts"]
 }

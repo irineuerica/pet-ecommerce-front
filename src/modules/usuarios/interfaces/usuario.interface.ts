@@ -15,4 +15,4 @@ export interface UsuarioInterface {
   status: boolean;
   // enderecos: EnderecoInterface[];
   // formasPagamento: CartaoInterface[];
-};
+}

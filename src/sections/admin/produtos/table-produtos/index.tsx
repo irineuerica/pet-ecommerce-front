@@ -7,7 +7,12 @@ import {
   Button,
   IconButton,
   Dialog,
-  DialogTitle, DialogContent, DialogActions, TextField, Stack, Box
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Stack,
+  Box,
 } from '@mui/material';
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
 import { useDialogConfirmation } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
@@ -19,13 +24,11 @@ import { PATH_ADMIN, PATH_CLIENTE } from '../../../../routes/paths';
 import AddIcon from '@mui/icons-material/Add';
 import { formatMoeda } from '../../../../utils/formatMoeda';
 
-
 export default function TableProdutosAdmin() {
   const router = useRouter();
   const theme = useTheme();
   const { openDialogConfirmation } = useDialogConfirmation();
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
 
   const mock = [
     {
@@ -56,9 +59,9 @@ export default function TableProdutosAdmin() {
       marca: 'Marca 03',
       categoria: 3,
       status: false,
-      valor: 20.00,
+      valor: 20.0,
     },
-  ]
+  ];
 
   const columnsPedidos = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -86,13 +89,13 @@ export default function TableProdutosAdmin() {
         accessorKey: 'valor',
         header: 'Valor de venda',
         size: 180,
-        Cell: ({ cell }) =>(formatMoeda(cell.getValue<number>() ?? 0))
+        Cell: ({ cell }) => formatMoeda(cell.getValue<number>() ?? 0),
       },
       {
         accessorKey: 'status_pedido_id',
         header: 'Status',
         size: 150,
-        Cell: ({ cell }) =>(cell.getValue<boolean>() ? 'Ativo' : 'Inativo')
+        Cell: ({ cell }) => (cell.getValue<boolean>() ? 'Ativo' : 'Inativo'),
       },
       {
         accessorKey: 'status',
@@ -100,13 +103,20 @@ export default function TableProdutosAdmin() {
         size: 200,
         Cell: ({ cell }) => (
           <Stack flexDirection={'row'}>
-            <IconButton onClick={()=>router.push(PATH_ADMIN.novo_produto)}><EditIcon/></IconButton>
-            {cell.getValue<boolean>() ?
-              <IconButton onClick={()=>setOpen(true)}><CheckCircleIcon/></IconButton> :
-              <IconButton onClick={()=>setOpen(true)}><CancelIcon/></IconButton>
-            }
+            <IconButton onClick={() => router.push(PATH_ADMIN.novo_produto)}>
+              <EditIcon />
+            </IconButton>
+            {cell.getValue<boolean>() ? (
+              <IconButton onClick={() => setOpen(true)}>
+                <CheckCircleIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={() => setOpen(true)}>
+                <CancelIcon />
+              </IconButton>
+            )}
           </Stack>
-        )
+        ),
       },
     ],
     [],
@@ -128,34 +138,28 @@ export default function TableProdutosAdmin() {
           </Button>
         </Box>
       </Stack>
-      <MaterialReactTable
-        columns={columnsPedidos}
-        data={mock}
-        localization={MRT_Localization_PT_BR}
-
-      />
-      <ModalJustificativa open={open} setOpen={setOpen}/>
+      <MaterialReactTable columns={columnsPedidos} data={mock} localization={MRT_Localization_PT_BR} />
+      <ModalJustificativa open={open} setOpen={setOpen} />
     </Container>
   );
 }
 
 interface ModalProps {
-  open: boolean,
-  setOpen: (value: boolean) => void
+  open: boolean;
+  setOpen: (value: boolean) => void;
 }
 
-export function ModalJustificativa({open, setOpen}: ModalProps){
-  return(
+export function ModalJustificativa({ open, setOpen }: ModalProps) {
+  return (
     <Dialog open={open} maxWidth={'md'}>
       <DialogTitle>Alterar Status</DialogTitle>
       <DialogContent>
-        <TextField label={"Justificativa"}/>
+        <TextField label={'Justificativa'} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={()=>setOpen(false)}>Cancelar</Button>
-        <Button onClick={()=>setOpen(false)}>Salvar</Button>
+        <Button onClick={() => setOpen(false)}>Cancelar</Button>
+        <Button onClick={() => setOpen(false)}>Salvar</Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
-

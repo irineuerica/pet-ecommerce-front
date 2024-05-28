@@ -6,15 +6,15 @@ import MeuCarrinhoSection from 'src/sections/carrinho-section';
 
 const Page = () => {
   return (
-  <>
-    <Head>
-      <title>Carrinho</title>
-    </Head>
-    <Stack>
-     <MeuCarrinhoSection/>
-    </Stack>
-  </>
-  )
+    <>
+      <Head>
+        <title>Carrinho</title>
+      </Head>
+      <Stack>
+        <MeuCarrinhoSection />
+      </Stack>
+    </>
+  );
 };
 
 Page.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;

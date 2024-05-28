@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-import BellIcon from '@heroicons/react/24/solid/BellIcon';
+import ShoppingCart from '@heroicons/react/24/solid/ShoppingCartIcon';
 import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import { Avatar, Badge, Box, IconButton, Stack, SvgIcon, Theme, Tooltip, useMediaQuery } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
+import { useRouter } from 'next/router';
+import { PATH_CLIENTE } from 'src/routes/paths';
+import { useContext } from 'react';
+import PedidoContext from '@modules/pedido/contexts/PedidoContext';
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -13,6 +17,8 @@ export const TopNav = (props: { onNavOpen: any }) => {
   const { onNavOpen } = props;
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
   const accountPopover = usePopover();
+  const router = useRouter();
+  const pedidoContext = useContext(PedidoContext);
 
   return (
     <>
@@ -52,11 +58,11 @@ export const TopNav = (props: { onNavOpen: any }) => {
             )}
           </Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <Tooltip title="Notificações">
-              <IconButton>
-                <Badge badgeContent={4} color="success" variant="dot">
+            <Tooltip title="Carrinho">
+              <IconButton onClick={() => router.push(PATH_CLIENTE.carrinho)}>
+                <Badge badgeContent={pedidoContext?.carrinho?.itens?.length} color="primary" variant="dot">
                   <SvgIcon fontSize="small">
-                    <BellIcon />
+                    <ShoppingCart />
                   </SvgIcon>
                 </Badge>
               </IconButton>

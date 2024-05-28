@@ -32,7 +32,7 @@ export function ModalListaCartoes({ open, setOpen }: ModalProps) {
         <Grid container spacing={3}>
           {cartoes?.map((cartao) => (
             <Grid item xs={12} md={4} lg={4}>
-              <Card sx={{justifyContent: 'center'}}>
+              <Card sx={{ justifyContent: 'center' }}>
                 <CardContent>
                   <Typography color={theme.palette.primary.dark} fontSize={16}>
                     {cartao.numero}

@@ -19,20 +19,18 @@ export const AlterarSenhaSection = () => {
   const {
     query: { id },
   } = router;
-  
+
   const methods = useForm({
     resolver: yupResolver(alteracaoSenhaUsuarioSchema),
-
   });
 
-  useEffect(()=>{
-    methods.setValue('id', Number(id))
-  },[id])
-
+  useEffect(() => {
+    methods.setValue('id', Number(id));
+  }, [id]);
 
   const submitAlterarSenha: SubmitHandler<AlterarSenhaInterface> = async (userData) => {
     try {
-      await handleAlterarSenha({ senha: userData.senha, id: userData.id});
+      await handleAlterarSenha({ senha: userData.senha, id: userData.id });
       router.push(PATH_CLIENTE.minha_conta.root);
     } catch (err) {
       throw err;
@@ -46,7 +44,7 @@ export const AlterarSenhaSection = () => {
       </Typography>
       <Card>
         <CardContent>
-            <AlterarSenha/>
+          <AlterarSenha />
         </CardContent>
       </Card>
       <Stack flexDirection="row">

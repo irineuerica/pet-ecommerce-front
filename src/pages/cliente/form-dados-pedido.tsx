@@ -12,10 +12,10 @@ const Page = () => {
         <title>Carrinho</title>
       </Head>
       <Stack>
-        <FormDadosPedido/>
+        <FormDadosPedido />
       </Stack>
     </>
-  )
+  );
 };
 
 Page.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;

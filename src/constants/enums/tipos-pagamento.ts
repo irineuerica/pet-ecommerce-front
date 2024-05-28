@@ -1,4 +1,4 @@
 export enum TiposPagamento {
-    CARTAO = 'cartao',
-    CUPOM = 'cupom',
+  CARTAO = 'cartao',
+  CUPOM = 'cupom',
 }

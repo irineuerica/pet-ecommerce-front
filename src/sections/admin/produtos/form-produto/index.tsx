@@ -7,7 +7,7 @@ import { CategoriaOption } from '../../../../utils/options/form.options';
 import { PATH_ADMIN } from '../../../../routes/paths';
 import { useRouter } from 'next/router';
 
-export default function FormProduto(){
+export default function FormProduto() {
   const router = useRouter();
   const methods = useForm({
     defaultValues: {
@@ -16,9 +16,9 @@ export default function FormProduto(){
       peso: 1,
       marca: 'Marca 01',
       categoria: 2,
-    }
+    },
   });
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <FormProvider {...methods}>
       <Typography fontWeight="bold" color={theme.palette.secondary.main} fontSize={20}>
@@ -26,16 +26,16 @@ export default function FormProduto(){
       </Typography>
       <Grid container spacing={2} py={2}>
         <Grid item xs={12} md={12}>
-          <FormInputText name="nome" label="Nome"/>
+          <FormInputText name="nome" label="Nome" />
         </Grid>
         <Grid item xs={12} md={12}>
-          <FormInputText name="descricao" label="Descrição"/>
+          <FormInputText name="descricao" label="Descrição" />
         </Grid>
         <Grid item xs={12} md={2}>
-          <FormInputText name="peso" label="Peso" type={'number'}/>
+          <FormInputText name="peso" label="Peso" type={'number'} />
         </Grid>
         <Grid item xs={12} md={10}>
-          <FormInputText name="marca" label="Marca"/>
+          <FormInputText name="marca" label="Marca" />
         </Grid>
         <Grid item xs={12} md={12}>
           <FormSelect name="categoria" options={CategoriaOption} label="Categoria" />
@@ -47,18 +47,11 @@ export default function FormProduto(){
           fullWidth
           variant="contained"
           sx={{ mr: 1 }}
-          onClick={()=>router.push(PATH_ADMIN.produtos)}
+          onClick={() => router.push(PATH_ADMIN.produtos)}
         >
           Voltar
         </Button>
-        <LoadingButton
-          fullWidth
-          variant="contained"
-          onClick={() =>
-            router.push(PATH_ADMIN.produtos)
-          }
-          sx={{ ml: 1 }}
-        >
+        <LoadingButton fullWidth variant="contained" onClick={() => router.push(PATH_ADMIN.produtos)} sx={{ ml: 1 }}>
           Salvar
         </LoadingButton>
       </Stack>

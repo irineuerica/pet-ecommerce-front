@@ -1,16 +1,16 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSnackbar } from 'notistack';
 import { HttpStatusCode } from 'axios';
 import { AxiosCustomError } from 'src/@types/axios.types';
 import { CreatePedido } from 'src/interfaces/pedidos.interface';
 import { PedidoService } from '../services/pedido.service';
+import { CupomKeysEnum } from '@modules/cupons/constants/usuario-keys.enums';
 
 export function useSalvarPedido() {
   const { enqueueSnackbar } = useSnackbar();
 
   const { mutateAsync: handleSalvarPedido, isLoading: handleSalvarPedidoIsLoading } = useMutation(
-    ({ pedido }: {pedido: CreatePedido}) =>
-      PedidoService.getInstance().handleSalvarPedido(pedido),
+    ({ pedido }: { pedido: CreatePedido }) => PedidoService.getInstance().handleSalvarPedido(pedido),
     {
       onError(err: AxiosCustomError) {
         if (err.statusCode === HttpStatusCode.InternalServerError) {
@@ -33,12 +33,8 @@ export function useSalvarPedido() {
     },
   );
 
- 
-  
-
   return {
     handleSalvarPedido,
     handleSalvarPedidoIsLoading,
-
   };
 }

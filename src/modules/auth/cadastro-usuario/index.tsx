@@ -32,7 +32,7 @@ export default function CadastroUsuarioContent() {
         onClick={() =>
           // @ts-ignore
           methods.handleSubmit(submitUsuario, (e) => {
-            console.error(e)
+            console.error(e);
             enqueueSnackbar('Erro ao cadastrar usuário', {
               variant: 'error',
               style: { whiteSpace: 'pre-line' },

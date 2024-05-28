@@ -1,36 +1,17 @@
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import React, { useMemo } from 'react';
-import {
-  Container,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Container, Typography, useTheme } from '@mui/material';
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
-
 import { FormProvider, useForm } from 'react-hook-form';
-import { formatMoeda } from '../../utils/formatMoeda';
+import { formatCurrency } from '../../utils/formatMoeda';
+import { useCupomQuery } from '@modules/cupons/hooks/react-query/useCupomQuery';
+import Lottie from 'lottie-react';
+import loadingAnimation from 'src/animations/cat_loading.json';
 
 export default function TableMeusCupons() {
   const theme = useTheme();
   const methods = useForm();
-  const mock = [
-    {
-      codigo: '9227-aaa',
-      tipo: 'Troca',
-      pedido_origem_id: 1,
-      cliente_id: 1,
-      valor: 50.5,
-      status: true,
-    },
-    {
-      codigo: '2104-kqn',
-      tipo: 'Promocional',
-      pedido_origem_id: 2,
-      cliente_id: 88,
-      valor: 15.00,
-      status: true,
-    },
-  ]
+  const { cupons, cuponsIsloading } = useCupomQuery();
 
   const columnsPedidos = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -48,7 +29,12 @@ export default function TableMeusCupons() {
         accessorKey: 'valor',
         header: 'Valor',
         size: 180,
-        Cell: ({ cell }) =>(formatMoeda(cell.getValue<number>() ?? 0))
+        Cell: ({ cell }) => formatCurrency(cell.getValue<number>() ?? 0),
+      },
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        size: 180,
       },
     ],
     [],
@@ -59,13 +45,12 @@ export default function TableMeusCupons() {
         <Typography fontWeight={'bold'} fontSize={24} pb={3} color={theme.palette.primary.dark}>
           Cupons
         </Typography>
-        <MaterialReactTable
-          columns={columnsPedidos}
-          data={mock}
-          localization={MRT_Localization_PT_BR}
-        />
+        {cuponsIsloading || !cupons ? (
+          <Lottie animationData={loadingAnimation} loop={true} style={{ height: 400 }} />
+        ) : (
+          <MaterialReactTable columns={columnsPedidos} data={cupons} localization={MRT_Localization_PT_BR} />
+        )}
       </Container>
     </FormProvider>
   );
 }
-

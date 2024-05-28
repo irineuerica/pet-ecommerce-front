@@ -48,10 +48,8 @@ export function useCupomQuery() {
           });
         }
       },
-    
     },
   );
-
 
   const { mutateAsync: handleValidate, isLoading: handleValidateIsLoading } = useMutation(
     (codigo: string) => CupomService.getInstance().validate(codigo),
@@ -67,10 +65,8 @@ export function useCupomQuery() {
           });
         }
       },
-    
     },
   );
-
 
   const { data: cupons, isLoading: cuponsIsloading } = useQuery([CupomKeysEnum.GET_BY_USER], () =>
     CupomService.getInstance().getCupons(),
@@ -84,6 +80,6 @@ export function useCupomQuery() {
     getAllCupons,
     getAllCuponsIsLoading,
     handleValidate,
-    handleValidateIsLoading
+    handleValidateIsLoading,
   };
 }

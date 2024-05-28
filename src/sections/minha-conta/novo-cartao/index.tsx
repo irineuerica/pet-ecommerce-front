@@ -14,7 +14,7 @@ export const NovoCartaoSection = () => {
   const theme = useTheme();
   const { handleSalvarCartao, handleSalvarCartaoIsLoading } = useCartaoQuery();
   const methods = useForm({
-    resolver: yupResolver(cadastroCartao)
+    resolver: yupResolver(cadastroCartao),
   });
 
   const submitCartao: SubmitHandler<CartaoInterface> = async (cartaoData) => {

@@ -26,7 +26,20 @@ const MeuCarrinhoSection = () => {
               <Typography color={theme.palette.primary.dark} fontWeight={'bold'} fontSize={20} pb={2}>
                 Carrinho
               </Typography>
-              {pedidoContext?.carrinho?.itens?.map((item, index) => <ItemCarrinho item={item} disabled={false} />)}
+              {pedidoContext?.carrinho?.itens?.length === 0 ? (
+                <Typography
+                  color={theme.palette.warning.main}
+                  fontWeight={'bold'}
+                  fontSize={20}
+                  sx={{ textAlign: 'center', py: 10 }}
+                >
+                  Carrinho vazio :/
+                </Typography>
+              ) : (
+                <>
+                  {pedidoContext?.carrinho?.itens?.map((item, index) => <ItemCarrinho item={item} disabled={false} />)}
+                </>
+              )}
               <Divider />
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
@@ -38,7 +51,7 @@ const MeuCarrinhoSection = () => {
               ))}
               <Divider />
             </Grid>
-            <Grid item lg={12} sm={12} xl={12} xs={12}>
+            <Grid item lg={12} sm={12} xl={12} xs={12} mt={10}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <TextField
@@ -70,7 +83,11 @@ const MeuCarrinhoSection = () => {
             </Button>
           </Grid>
           <Grid item xs={3}>
-            <Button variant="contained" onClick={() => router.push(PATH_CLIENTE.dados_pedido)}>
+            <Button
+              variant="contained"
+              onClick={() => router.push(PATH_CLIENTE.dados_pedido)}
+              disabled={pedidoContext?.carrinho?.itens?.length === 0}
+            >
               Continuar
             </Button>
           </Grid>
@@ -102,7 +119,7 @@ export function ItemCarrinho({ item, disabled = false }: ItemCarrinhoProps) {
           </Grid>
           <Grid item xs={2}>
             <Typography color={theme.palette.primary.dark}>R${item?.produto?.valor}</Typography>
-          </Grid> 
+          </Grid>
           {disabled === false && (
             <>
               <Grid item xs={2}>

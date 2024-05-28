@@ -69,10 +69,9 @@ export class UsuarioService {
     }
   }
 
-
   async handleAlterarSenha(id: number, senha: string) {
     try {
-      const { data } = await api.put(`/user/alterar-senha/${id}`, {senha});
+      const { data } = await api.put(`/user/alterar-senha/${id}`, { senha });
 
       return data;
     } catch (err) {

@@ -25,7 +25,6 @@ export default function FormDadosPedido() {
   const methods = useForm();
   const pedidoContext = useContext(PedidoContext);
 
-
   return (
     <FormProvider {...methods}>
       <Grid container sx={{ p: 2 }} spacing={3}>
@@ -122,5 +121,3 @@ export default function FormDadosPedido() {
     </FormProvider>
   );
 }
-
-

@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Button,
-  DialogContent,
-} from '@mui/material';
+import { Dialog, DialogActions, DialogTitle, Button, DialogContent } from '@mui/material';
 import React, { useContext } from 'react';
 import CardDadosEndereco from '@modules/usuarios/components/meus-enderecos/card-dados-endereco';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -18,10 +12,10 @@ import PedidoContext from '@modules/pedido/contexts/PedidoContext';
 interface ModalProps {
   open: boolean;
   setOpen: (value: boolean) => void;
-  isCobranca?: boolean
+  isCobranca?: boolean;
 }
 
-export function ModalNovoEndereco({ open, setOpen, isCobranca=false }: ModalProps) {
+export function ModalNovoEndereco({ open, setOpen, isCobranca = false }: ModalProps) {
   const pedidoContext = useContext(PedidoContext);
   const methods = useForm({
     resolver: yupResolver(cadastroEndereco),
@@ -46,10 +40,10 @@ export function ModalNovoEndereco({ open, setOpen, isCobranca=false }: ModalProp
   const submitEndereco: SubmitHandler<EnderecoInterface> = async (enderecoData) => {
     try {
       const novoEndereco = await handleSalvarEndereco({ endereco: enderecoData, id: enderecoData.id ?? undefined });
-      if(isCobranca){
-        pedidoContext?.setEnderecoCobranca(novoEndereco)
-      }else{
-        pedidoContext?.setEndereco(novoEndereco)
+      if (isCobranca) {
+        pedidoContext?.setEnderecoCobranca(novoEndereco);
+      } else {
+        pedidoContext?.setEndereco(novoEndereco);
       }
       setOpen(false);
     } catch (err) {

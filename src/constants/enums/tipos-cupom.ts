@@ -1,5 +1,5 @@
 export enum TiposCupom {
-    PROMOCIONAL = 'Promocional',
-    TROCA = 'Troca',
-    TROCO = 'Troco'
+  PROMOCIONAL = 'Promocional',
+  TROCA = 'Troca',
+  TROCO = 'Troco',
 }

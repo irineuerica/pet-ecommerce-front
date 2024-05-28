@@ -15,7 +15,6 @@ export class CupomService {
     return this.instance;
   }
 
-
   async getCupons() {
     try {
       const { data } = await api.get<CupomInterface[]>(`/cupom/user`);
@@ -33,7 +32,6 @@ export class CupomService {
       throw err;
     }
   }
-
 
   async validate(codigo: string) {
     try {

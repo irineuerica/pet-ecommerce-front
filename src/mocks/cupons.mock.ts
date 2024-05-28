@@ -20,7 +20,7 @@ export const CUPOM: CupomInterface[] = [
     tipo: 'Promocional',
     pedido_origem_id: 2,
     cliente_id: 88,
-    valor: 15.00,
+    valor: 15.0,
   },
   {
     codigo: '8224-hrg',

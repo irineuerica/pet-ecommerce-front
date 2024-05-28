@@ -1,7 +1,5 @@
 import TablePedidos from './components/table-pedidos';
 
-export default function MeusPedidosSection(){
-  return(
-    <TablePedidos/>
-  )
+export default function MeusPedidosSection() {
+  return <TablePedidos />;
 }

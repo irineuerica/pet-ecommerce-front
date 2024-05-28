@@ -1,18 +1,17 @@
-export enum StatusPedidoEnum  {
+export enum StatusPedidoEnum {
   EM_PROCESSAMENTO = 1,
   PAGAMENTO_REALIZADO,
-  PAGAMENTO_APROVADO,
-  PAGAMENTO_RECUSADO,
   EM_TRANSPORTE,
   TROCA_SOLICITADA,
   TROCA_AUTORIZADA,
   TROCA_EFETUADA,
   TROCA_REJEITADA,
-  CANCELAMENTO_REJEITADO,
-  CANCELAMENTO_EFETUADO,
-  CANCELAMENTO_AUTORIZADO,
+  DEVOLUÇÃO_SOLICITADA,
+  DEVOLUÇÃO_REJEITADA,
+  DEVOLUÇÃO_AUTORIZADA,
+  DEVOLUÇÃO_EFETUADA,
   ENTREGA_REALIZADA,
-};
+}
 
 export const StatusById = [
   {
@@ -25,35 +24,42 @@ export const StatusById = [
   },
   {
     id: 3,
-    nome: 'Pagamento aprovado',
-  },
-  {
-    id: 4,
-    nome: 'Pagamento recusado',
-  },
-  {
-    id: 5,
     nome: 'Em transporte',
   },
   {
-    id: 6,
+    id: 4,
     nome: 'Troca solicitada',
   },
   {
-    id: 7,
+    id: 5,
     nome: 'Troca autorizada',
   },
   {
-    id: 8,
+    id: 6,
     nome: 'Troca efetuada',
   },
   {
-    id: 9,
+    id: 7,
     nome: 'Troca rejeitada',
   },
   {
-    id: 13,
+    id: 8,
+    nome: 'Devolução solicitada',
+  },
+  {
+    id: 9,
+    nome: 'Devolução autorizada',
+  },
+  {
+    id: 10,
+    nome: 'Devolução efetuada',
+  },
+  {
+    id: 11,
+    nome: 'Devolução rejeitada',
+  },
+  {
+    id: 12,
     nome: 'Entrega realizada',
   },
-]
-
+];

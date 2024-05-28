@@ -14,9 +14,7 @@ export default function MeusCartoes() {
   return (
     <Card>
       <CardHeader title="Meus cartões" />
-      <CardContent>
-        {cartoes?.map((cartao: CartaoInterface) => <DetalheMeusCartoes cartao={cartao} />)}
-      </CardContent>
+      <CardContent>{cartoes?.map((cartao: CartaoInterface) => <DetalheMeusCartoes cartao={cartao} />)}</CardContent>
       <CardActions>
         <Stack width="70%" direction="row" justifyContent="flex-end" marginLeft="30%">
           <Box display="flex" justifyContent="right">

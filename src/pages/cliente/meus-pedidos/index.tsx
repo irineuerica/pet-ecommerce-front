@@ -11,10 +11,10 @@ const Page = () => {
         <title>Meus pedidos</title>
       </Head>
       <Stack>
-        <MeusPedidosSection/>
+        <MeusPedidosSection />
       </Stack>
     </>
-  )
+  );
 };
 
 Page.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;

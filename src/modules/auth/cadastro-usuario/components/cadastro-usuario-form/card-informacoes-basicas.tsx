@@ -37,7 +37,7 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
             <FormSelect name="genero" options={generoOptions} label="Gênero" />
           </Grid>
           <Grid item xs={12} md={6}>
-            <FormInputDate name="dataNascimento" label="Data de nascimento"  maxDate={new Date()}/>
+            <FormInputDate name="dataNascimento" label="Data de nascimento" maxDate={new Date()} />
           </Grid>
           <Grid item xs={12} md={6}>
             <FormInputText name="cpf" label="CPF" mask={{ format: '999.999.999-99' }} disabled={isEdit} />
@@ -53,7 +53,6 @@ export default function CardInformacoesBasicas({ titulo, isEdit }: CardInformaco
               </Grid>
             </>
           )}
-          
         </Grid>
         <Divider />
       </CardContent>

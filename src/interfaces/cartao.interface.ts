@@ -14,6 +14,6 @@ export type CartaoInterface = {
 };
 
 export type PagamentoInterface = {
-  cartoes: CartaoInterface[]
-  cupons: CupomInterface[]
+  cartoes: CartaoInterface[];
+  cupons: CupomInterface[];
 };
