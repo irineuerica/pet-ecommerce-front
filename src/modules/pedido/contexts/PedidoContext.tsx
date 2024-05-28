@@ -56,7 +56,6 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { handleSalvarPedido } = useSalvarPedido();
 
-  console.log('cupons', cupons);
   useEffect(() => {
     calculaProdutos();
   }, [carrinho]);
@@ -72,7 +71,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   }, [endereco?.estado]);
 
   useEffect(() => {
-    // validaTempoCarrinho()
+    validaTempoCarrinho()
   }, [gamb]);
 
   function calculaProdutos() {

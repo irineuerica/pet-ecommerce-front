@@ -112,7 +112,7 @@ export function ItemCarrinho({ item, disabled = false }: ItemCarrinhoProps) {
       <CardContent>
         <Grid container spacing={1}>
           <Grid item xs={1}>
-            <Image src={mockImage} width={50} height={50} alt="imagem do produto de gatito" />
+            <Image src={`/assets/products/${item.produto.categoria.id}.png`} width={50} height={50}  alt="imagem do produto" />
           </Grid>
           <Grid item xs={6}>
             <Typography color={theme.palette.primary.dark}>{item?.produto?.nome}</Typography>
