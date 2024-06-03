@@ -71,7 +71,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   }, [endereco?.estado]);
 
   useEffect(() => {
-    validaTempoCarrinho()
+    // validaTempoCarrinho()
   }, [gamb]);
 
   function calculaProdutos() {

@@ -33,7 +33,8 @@
     "apexcharts": "3.44.2",
     "axios": "^1.6.7",
     "chart.js": "^4.4.2",
-    "date-fns": "2.30.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "formik": "2.4.5",
     "framer-motion": "8.4.7",
@@ -44,7 +45,7 @@
     "notistack": "^3.0.1",
     "nprogress": "0.2.0",
     "or": "^0.2.0",
-    "prop-types": "15.8.1",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-apexcharts": "1.4.1",
     "react-chartjs-2": "^5.2.0",
@@ -57,7 +58,6 @@
     "referral-codes": "^3.0.0",
     "simplebar-react": "^3.2.4",
     "typescript": "^5.4.2",
-    "voucher-code-generator": "^1.3.0",
     "yup": "1.3.2"
   },
   "devDependencies": {

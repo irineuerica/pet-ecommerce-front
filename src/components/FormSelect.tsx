@@ -90,7 +90,7 @@ type FormMultiSelectProps = SelectProps & {
   helperText?: React.ReactNode;
   options: {
     label: string;
-    value: string;
+    value: string | number;
   }[];
 };
 

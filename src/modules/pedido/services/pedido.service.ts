@@ -5,6 +5,13 @@ interface AlterarStatusProps {
   status: Status;
   id: number;
 }
+
+
+export interface AnalysisProps {
+  produtosId: number[];
+  dataInicio: Date;
+  dataFim: Date;
+}
 export class PedidoService {
   static instance: PedidoService;
 
@@ -75,6 +82,16 @@ export class PedidoService {
   async handleTrocaDevolucao({ status, id }: AlterarStatusProps) {
     try {
       const { data } = await api.post(`/pedido/troca-devolucao`, { status, id });
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+
+  async analysis({ produtosId, dataFim, dataInicio }: AnalysisProps) {
+    try {
+      const { data } = await api.post(`/pedido/analise`, {produtosId, dataFim, dataInicio});
       return data;
     } catch (err) {
       throw err;
