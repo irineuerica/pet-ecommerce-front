@@ -11,7 +11,7 @@ import {
   CardMedia,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { formatCurrency, formatMoeda } from '../../utils/formatMoeda';
+import { formatCurrency } from '../../utils/formatMoeda';
 import { useRouter } from 'next/router';
 import { usePedido } from '@modules/pedido/hooks/usePedido';
 import { ItemPedido, ListPedidoInterface } from 'src/interfaces/pedidos.interface';
@@ -58,7 +58,7 @@ export default function DetalhePedidoSection() {
           <Card>
             <CardContent>
               <Typography>
-                <b>Status Pedido:</b> {pedido.status.nome}
+                <b style={{ color: theme.palette.primary.dark }}>Status Pedido:</b> {pedido.status.nome}
               </Typography>
             </CardContent>
           </Card>
@@ -67,7 +67,7 @@ export default function DetalhePedidoSection() {
             Itens do pedido
           </Typography>
           <Grid container spacing={3}>
-            {pedido?.itensPedido?.map((item: ItemPedido) => {
+            {pedido?.itensPedido?.map((item: ItemPedido, index: number) => {
               return (
                 <Grid item xs={12} md={4}>
                   <Card>
@@ -94,6 +94,7 @@ export default function DetalhePedidoSection() {
                         fullWidth
                         onClick={() => solicitarTroca(item.id)}
                         disabled={item.status.id !== StatusPedidoEnum.ENTREGA_REALIZADA}
+                        key={`btn_solicitar_troca_${index}`}
                       >
                         Solicitar troca
                       </Button>
@@ -102,6 +103,7 @@ export default function DetalhePedidoSection() {
                         fullWidth
                         onClick={() => solicitarDevolução(item.id)}
                         disabled={item.status.id !== StatusPedidoEnum.ENTREGA_REALIZADA}
+                        key={`btn_solicitar_devolucao_${index}`}
                       >
                         Solicitar devolução
                       </Button>
@@ -114,7 +116,7 @@ export default function DetalhePedidoSection() {
           <Grid container spacing={3} pt={4}>
             <Grid item xs={12} md={6}>
               <Card>
-                <CardHeader title={'Forma de pagamento'}></CardHeader>
+                <CardHeader title={'Forma de pagamento'} sx={{ color: theme.palette.primary.dark }}></CardHeader>
                 {pedido?.cartoes?.length > 0 &&
                   pedido?.cartoes?.map((cartao) => (
                     <CardContent>
@@ -152,7 +154,7 @@ export default function DetalhePedidoSection() {
             </Grid>
             <Grid item xs={12} md={6}>
               <Card>
-                <CardHeader title={'Endereço de entrega'}></CardHeader>
+                <CardHeader title={'Endereço de entrega'} sx={{ color: theme.palette.primary.dark }}></CardHeader>
                 <CardContent>
                   <Typography color={theme.palette.common.black} fontSize={16}>
                     {pedido.endereco.nome}

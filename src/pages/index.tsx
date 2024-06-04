@@ -1,20 +1,31 @@
-import { Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Autocomplete, Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
 import Head from 'next/head';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { Box, Tab } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import React, { useState } from 'react';
+import { TabContext, TabList } from '@mui/lab';
+import React, { useContext, useState } from 'react';
 import ProductCard from 'src/components/ProductCard';
 import { useProduto } from '../modules/produtos/hooks/useProduto';
 import { ProdutoInterface } from 'src/interfaces/produtos.interface';
+import useAuth from '@modules/auth/login/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { PATH_AUTH } from 'src/routes/paths';
+import { ProdutoContext } from '@modules/produtos/context/produtoContext';
 
 const Page = () => {
+  const router = useRouter();
   const theme = useTheme();
   const { produtos, isLoading } = useProduto();
   const [value, setValue] = useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const { authenticated } = useAuth();
+  const { categorias, categoriasIsLoading } = useProduto();
+  const { produtosFiltrados, setCategoria, setPesquisa, pesquisa } = useContext(ProdutoContext);
+  if (!authenticated) {
+    router.push(PATH_AUTH.login);
+  }
 
   return (
     <>
@@ -22,7 +33,13 @@ const Page = () => {
         <title>Liro Pet Shop</title>
       </Head>
       <Stack>
-        <TextField label={'Pesquisar produtos'} variant={'filled'} sx={{ mx: 2 }} />
+        <TextField
+          label={'Pesquisar produtos'}
+          variant={'filled'}
+          sx={{ mx: 2 }}
+          onChange={(texto) => setPesquisa(texto.target.value)}
+          value={pesquisa}
+        />
         <TabContext value={value}>
           <Box sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', width: '100%' }}>
             <TabList
@@ -30,10 +47,15 @@ const Page = () => {
               onChange={handleChange}
               sx={{ width: '100%', backgroundColor: theme.palette.grey[50] }}
             >
-              <Tab label="Cachorro" value="1" sx={{ width: '25%' }} />
-              <Tab label="Gato" value="2" sx={{ width: '25%' }} />
-              <Tab label="Pássaro" value="3" sx={{ width: '25%' }} />
-              <Tab label="Roedores" value="4" sx={{ width: '25%' }} />
+              {categorias?.map((categoria) => (
+                <Tab
+                  label={categoria.nome}
+                  value={categoria.id}
+                  sx={{ width: '25%' }}
+                  key={`categoria_${categoria.id}`}
+                  onClick={() => setCategoria(categoria.id)}
+                />
+              ))}
             </TabList>
           </Box>
         </TabContext>
@@ -64,9 +86,9 @@ const Page = () => {
                 Produtos
               </Typography>
             </Grid>
-            {produtos.map((prod: ProdutoInterface) => (
+            {produtosFiltrados?.map((prod: ProdutoInterface, index: number) => (
               <Grid item xs={12} md={4}>
-                <ProductCard produto={prod} />
+                <ProductCard produto={prod} key={`item_carrinho_${index}`} />
               </Grid>
             ))}
           </Grid>

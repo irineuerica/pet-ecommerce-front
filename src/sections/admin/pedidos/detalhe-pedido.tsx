@@ -12,13 +12,14 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { formatCurrency } from '../../../utils/formatMoeda';
-import { FormSelect } from '../../../components/FormSelect';
 import { StatusPedidoOption } from '../../../utils/options/form.options';
 import { FormProvider, useForm } from 'react-hook-form';
 import { usePedido } from '@modules/pedido/hooks/usePedido';
 import { useRouter } from 'next/router';
 import { StatusById, StatusPedidoEnum } from 'src/constants/enums/status-pedido.enum';
-import { ItemPedido, ListPedidoInterface } from 'src/interfaces/pedidos.interface';
+import { ItemPedido, ListPedidoInterface, Status } from 'src/interfaces/pedidos.interface';
+import { useDialogConfirmation } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
+import { FormSelect } from 'src/components/FormSelect';
 
 export default function DetalhePedidoAdminSection() {
   const theme = useTheme();
@@ -27,6 +28,7 @@ export default function DetalhePedidoAdminSection() {
   const { handleAlterarStatusItem, handleShowPedido, handleAlterarStatusPedido, handleTrocaDevolucao } = usePedido();
   const { pedidoId } = router?.query;
   const [pedido, setPedido] = useState<ListPedidoInterface>();
+  const { openDialogConfirmation } = useDialogConfirmation();
 
   async function getDetails() {
     const pedidoSelecionado = await handleShowPedido({ id: Number(pedidoId) });
@@ -39,6 +41,24 @@ export default function DetalhePedidoAdminSection() {
       getDetails();
     }
   }, [pedidoId]);
+
+  const efetuarTrocaDevolucao = async (item: ItemPedido, novoStatus: Status) => {
+    openDialogConfirmation({
+      title: `Atenção`,
+      description: 'Deseja devolver item ao estoque?',
+      color: 'secondary',
+      confirmActionText: 'Sim',
+      cancelactionText: 'Não',
+      async onConfirm() {
+        await handleTrocaDevolucao({ status: novoStatus, id: item.id, devolverEstoque: true });
+        router.reload();
+      },
+      async onCancel() {
+        await handleTrocaDevolucao({ status: novoStatus, id: item.id, devolverEstoque: false });
+        router.reload();
+      },
+    });
+  };
 
   async function alterarStatus() {
     const statusId = methods.getValues('status');
@@ -85,16 +105,14 @@ export default function DetalhePedidoAdminSection() {
   async function trocaEfetuada(item: ItemPedido) {
     const novoStatus = StatusById?.find((status) => status.id === StatusPedidoEnum.TROCA_EFETUADA);
     if (novoStatus && pedido && pedido.id) {
-      await handleTrocaDevolucao({ status: novoStatus, id: item.id });
-      router.reload();
+      await efetuarTrocaDevolucao(item, novoStatus);
     }
   }
 
   async function devolucaoEfetuada(item: ItemPedido) {
     const novoStatus = StatusById?.find((status) => status.id === StatusPedidoEnum.DEVOLUÇÃO_EFETUADA);
     if (novoStatus && pedido && pedido.id) {
-      await handleTrocaDevolucao({ status: novoStatus, id: item.id });
-      router.reload();
+      await efetuarTrocaDevolucao(item, novoStatus);
     }
   }
 
@@ -106,7 +124,7 @@ export default function DetalhePedidoAdminSection() {
             <Card>
               <CardContent>
                 <Typography>
-                  <b>Status Pedido:</b> {pedido.status.nome}
+                  <b style={{ color: theme.palette.primary.dark }}>Status Pedido:</b> {pedido.status.nome}
                 </Typography>
               </CardContent>
               <Stack flexDirection={'row'} p={2}>
@@ -185,7 +203,7 @@ export default function DetalhePedidoAdminSection() {
             </Grid>
 
             <Card sx={{ mt: 4 }}>
-              <CardHeader title={'Dados do usuário'}></CardHeader>
+              <CardHeader title={'Dados do usuário'} sx={{ color: theme.palette.primary.dark }}></CardHeader>
               <CardContent>
                 <Typography color={theme.palette.common.black} fontSize={16} pb={1}>
                   <b>Nome: </b> Usuário Cliente Teste
@@ -205,7 +223,7 @@ export default function DetalhePedidoAdminSection() {
             <Grid container spacing={3} pt={4}>
               <Grid item xs={12} md={6}>
                 <Card>
-                  <CardHeader title={'Forma de pagamento'}></CardHeader>
+                  <CardHeader title={'Forma de pagamento'} sx={{ color: theme.palette.primary.dark }}></CardHeader>
                   {pedido?.cartoes?.length > 0 &&
                     pedido?.cartoes?.map((cartao) => (
                       <CardContent>
@@ -242,7 +260,7 @@ export default function DetalhePedidoAdminSection() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Card>
-                  <CardHeader title={'Endereço de entrega'}></CardHeader>
+                  <CardHeader title={'Endereço de entrega'} sx={{ color: theme.palette.primary.dark }}></CardHeader>
                   <CardContent>
                     <Typography color={theme.palette.common.black} fontSize={16}>
                       {pedido.endereco.nome}

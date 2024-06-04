@@ -104,6 +104,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
     setSubtotal(0);
     setTotal(0);
     setEndereco(undefined);
+    setEnderecoCobranca(undefined);
     setPagamento({ cupons: [], cartoes: [] });
     setDesconto(0);
     setFrete(0);
@@ -181,6 +182,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   }
 
   async function adicionarCupom(codigo: string) {
+    const codCupom = codigo.trim();
     if (desconto > total) {
       enqueueSnackbar('Valor de desconto maior que a compra', {
         variant: 'error',
@@ -190,7 +192,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
     const cuponsDisponiveis = cupons?.filter(
       (cupom: CupomInterface) => cupom.status && cupom.status === StatusCupom.DISPONIVEL,
     );
-    const cupomSelecionado = cuponsDisponiveis?.find((cupom: CupomInterface) => cupom.codigo === codigo);
+    const cupomSelecionado = cuponsDisponiveis?.find((cupom: CupomInterface) => cupom.codigo === codCupom);
     if (!cupomSelecionado) {
       enqueueSnackbar('Cupom não encontrado', {
         variant: 'error',
@@ -248,8 +250,9 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
       pagamento: pagamento,
     };
     //@ts-ignore
-    await handleSalvarPedido({ pedido });
+    const novoPedido = await handleSalvarPedido({ pedido });
     limpar();
+    return novoPedido;
   }
 
   const contextoData: PedidoContextData = {

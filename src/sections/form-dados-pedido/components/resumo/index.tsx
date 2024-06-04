@@ -17,6 +17,16 @@ export function Resumo() {
     pedidoContext.enderecoCobranca &&
     (pedidoContext?.pagamento?.cartoes?.length > 0 || pedidoContext?.pagamento?.cupons?.length > 0);
 
+  async function salvarPedido() {
+    const novoPedido = await pedidoContext?.salvarPedido();
+    if (novoPedido) {
+      router.push({
+        pathname: PATH_CLIENTE.pedido_criado,
+        // @ts-ignore
+        query: { pedidoId: novoPedido.id },
+      });
+    }
+  }
   return (
     <Grid container spacing={3} sx={{ pl: 5 }}>
       <Grid item lg={12} sm={12} xl={12} xs={12} pb={3}>
@@ -66,9 +76,9 @@ export function Resumo() {
           variant={'contained'}
           fullWidth
           onClick={() => {
-            pedidoContext?.salvarPedido();
-            router.push(PATH_CLIENTE.meus_pedidos);
+            salvarPedido();
           }}
+          key={`btn_finalizar_pedido`}
         >
           Finalizar pedido
         </Button>

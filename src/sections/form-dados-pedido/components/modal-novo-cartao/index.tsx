@@ -50,6 +50,7 @@ export function ModalNovoCartao({ open, setOpen, isCobranca = false }: ModalProp
                 console.error(e);
               })();
             }}
+            key={`btn_salva_cartao`}
           >
             Salvar
           </LoadingButton>

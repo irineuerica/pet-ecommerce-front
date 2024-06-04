@@ -36,7 +36,7 @@ export default function Dashboard() {
   const methods = useForm({
     defaultValues: {
       produtosSelecionados: [],
-      dataInicio: new Date(),
+      dataInicio: new Date(new Date().setDate(new Date().getDate() - 30)),
       dataFim: new Date(),
     },
   });
@@ -54,12 +54,12 @@ export default function Dashboard() {
     const produtosSelecionados: number[] = methods.getValues('produtosSelecionados');
     const dataInicio = new Date(methods.getValues('dataInicio'));
     const dataFim = new Date(methods.getValues('dataFim'));
-    if(produtosSelecionados.length === 0 || !dataInicio || !dataFim){
+    if (produtosSelecionados.length === 0 || !dataInicio || !dataFim) {
       enqueueSnackbar('Preencha os campos para gerar o gráfico', {
         variant: 'error',
         style: { whiteSpace: 'pre-line' },
       });
-      return; 
+      return;
     }
     const data = await handleAnalysis({
       produtosId: produtosSelecionados,
@@ -71,17 +71,7 @@ export default function Dashboard() {
     setChartData(processedData);
   }, [chartData]);
 
-  const colors = [
-    '#9EA1D4',
-    '#76B7B7',
-    '#FD8A8A',
-    '#FEC868',
-    '#06AED4',
-    '#FFD500',
-    '#528080',
-    '#38394C',
-    '#98AAB3',
-  ];
+  const colors = ['#9EA1D4', '#76B7B7', '#FD8A8A', '#FEC868', '#06AED4', '#FFD500', '#528080', '#38394C', '#98AAB3'];
 
   const processData = (data: SaleData[]) => {
     const productSales: { [product: string]: { [date: string]: number } } = {};
@@ -149,6 +139,11 @@ export default function Dashboard() {
           display: true,
           text: 'Quantidade Vendida',
         },
+
+        ticks: {
+          stepSize: 1,
+        },
+
         beginAtZero: true,
       },
     },
@@ -172,9 +167,7 @@ export default function Dashboard() {
                 variant={'outlined'}
                 color="secondary"
                 sx={{ my: 5 }}
-                onClick={() =>
-                  carregarAnalise()
-                }
+                onClick={() => carregarAnalise()}
               >
                 Gerar gráfico
               </LoadingButton>

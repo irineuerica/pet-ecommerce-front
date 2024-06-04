@@ -20,6 +20,7 @@ export const PATH_CLIENTE = {
     alterar_senha: path(ROOT_CLIENTE, '/minha-conta/alterar-senha'),
   },
   carrinho: path(ROOT_CLIENTE, '/carrinho'),
+  pedido_criado: path(ROOT_CLIENTE, '/pedido-criado'),
   dados_pedido: path(ROOT_CLIENTE, '/form-dados-pedido'),
   meus_pedidos: path(ROOT_CLIENTE, '/meus-pedidos'),
   detalhe_pedido: path(ROOT_CLIENTE, '/meus-pedidos/detalhe-pedido'),

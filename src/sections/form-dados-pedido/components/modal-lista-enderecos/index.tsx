@@ -11,7 +11,6 @@ import {
   useTheme,
   Card,
   CardContent,
-  CardActionArea,
   Stack,
 } from '@mui/material';
 import React, { useContext } from 'react';
@@ -31,7 +30,7 @@ export function ModalListaEndereco({ open, setOpen, isCobranca = false }: ModalP
       <DialogTitle>Endereços</DialogTitle>
       <DialogContent>
         <Grid container spacing={3}>
-          {enderecos?.map((endereco) => (
+          {enderecos?.map((endereco, index) => (
             <Grid item xs={12} md={6} lg={6}>
               <Card>
                 <CardContent>
@@ -68,6 +67,7 @@ export function ModalListaEndereco({ open, setOpen, isCobranca = false }: ModalP
                         },
                       }}
                       color="primary"
+                      key={`btn_seleciona_endereco_${index}`}
                     >
                       Selecionar
                     </Button>

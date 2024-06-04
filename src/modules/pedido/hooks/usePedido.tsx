@@ -80,8 +80,8 @@ export function usePedido() {
   );
 
   const { mutateAsync: handleTrocaDevolucao, isLoading: handleTrocaDevolucaoIsLoading } = useMutation(
-    ({ status, id }: { status: Status; id: number }) =>
-      PedidoService.getInstance().handleTrocaDevolucao({ status, id }),
+    ({ status, id, devolverEstoque }: { status: Status; id: number; devolverEstoque: boolean }) =>
+      PedidoService.getInstance().handleTrocaDevolucao({ status, id, devolverEstoque }),
     {
       onError(err: AxiosCustomError) {
         if (err.statusCode === HttpStatusCode.InternalServerError) {

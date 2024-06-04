@@ -11,6 +11,7 @@ import { SnackbarProvider } from 'notistack';
 import { AuthProvider } from '@modules/auth/login/contexts/authContext';
 import { DialogConfirmationProvider } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
 import { PedidoProvider } from '@modules/pedido/contexts/PedidoContext';
+import { ProdutoProvider } from '@modules/produtos/context/produtoContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -35,10 +36,12 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
           <DialogConfirmationProvider>
             <SnackbarProvider>
               <AuthProvider>
-                <PedidoProvider>
-                  <CssBaseline />
-                  {getLayout(<Component {...pageProps} />)}
-                </PedidoProvider>
+                <ProdutoProvider>
+                  <PedidoProvider>
+                    <CssBaseline />
+                    {getLayout(<Component {...pageProps} />)}
+                  </PedidoProvider>
+                </ProdutoProvider>
               </AuthProvider>
             </SnackbarProvider>
           </DialogConfirmationProvider>

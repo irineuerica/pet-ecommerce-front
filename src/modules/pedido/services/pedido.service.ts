@@ -6,6 +6,11 @@ interface AlterarStatusProps {
   id: number;
 }
 
+interface TrocaDevolucaoProps {
+  status: Status;
+  id: number;
+  devolverEstoque: boolean;
+}
 
 export interface AnalysisProps {
   produtosId: number[];
@@ -79,19 +84,18 @@ export class PedidoService {
     }
   }
 
-  async handleTrocaDevolucao({ status, id }: AlterarStatusProps) {
+  async handleTrocaDevolucao({ status, id, devolverEstoque }: TrocaDevolucaoProps) {
     try {
-      const { data } = await api.post(`/pedido/troca-devolucao`, { status, id });
+      const { data } = await api.post(`/pedido/troca-devolucao`, { status, id, devolverEstoque });
       return data;
     } catch (err) {
       throw err;
     }
   }
 
-
   async analysis({ produtosId, dataFim, dataInicio }: AnalysisProps) {
     try {
-      const { data } = await api.post(`/pedido/analise`, {produtosId, dataFim, dataInicio});
+      const { data } = await api.post(`/pedido/analise`, { produtosId, dataFim, dataInicio });
       return data;
     } catch (err) {
       throw err;

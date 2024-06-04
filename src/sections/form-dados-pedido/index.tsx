@@ -41,10 +41,20 @@ export default function FormDadosPedido() {
                 Endereço de entrega
               </Typography>
               <Stack flexDirection={'row'} justifyContent={'space-around'}>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenListaEndereco(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenListaEndereco(true)}
+                  key={'btn_selecionar_endereco'}
+                >
                   Selecionar endereço de entrega
                 </Button>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenEndereco(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenEndereco(true)}
+                  key={'btn_add_endereco'}
+                >
                   Novo endereço de entrega
                 </Button>
               </Stack>
@@ -69,10 +79,20 @@ export default function FormDadosPedido() {
                 Endereço de cobrança
               </Typography>
               <Stack flexDirection={'row'} justifyContent={'space-around'}>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenListaEnderecoCobranca(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenListaEnderecoCobranca(true)}
+                  key={'btn_selecionar_endereco_cobranca'}
+                >
                   Selecionar endereço de cobrança
                 </Button>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenEndereco(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenEnderecoCobranca(true)}
+                  key={'btn_add_endereco_cobranca'}
+                >
                   Novo endereço de cobrança
                 </Button>
               </Stack>
@@ -95,10 +115,20 @@ export default function FormDadosPedido() {
                 Forma de pagamento
               </Typography>
               <Stack flexDirection={'row'} justifyContent={'space-around'}>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenListaCartao(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenListaCartao(true)}
+                  key={'btn_selecionar_pagamento'}
+                >
                   Selecionar cartão
                 </Button>
-                <Button color={'secondary'} variant={'outlined'} onClick={() => setOpenCartao(true)}>
+                <Button
+                  color={'secondary'}
+                  variant={'outlined'}
+                  onClick={() => setOpenCartao(true)}
+                  key={'btn_add_pagamento'}
+                >
                   Novo cartão
                 </Button>
               </Stack>

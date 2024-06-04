@@ -68,6 +68,7 @@ export function ModalNovoEndereco({ open, setOpen, isCobranca = false }: ModalPr
                 console.error(e);
               })();
             }}
+            key={`btn_salva_endereco`}
           >
             Salvar
           </LoadingButton>

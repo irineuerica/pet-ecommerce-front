@@ -57,7 +57,7 @@ export function CartaoSelecionado() {
   const pedidoContext = useContext(PedidoContext);
   const totalCartao = pedidoContext?.calculaTotalPorCartao();
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       {pedidoContext?.pagamento?.cartoes?.map((cartao: CartaoInterface) => (
         <Grid item lg={6} sm={12} xl={6} xs={12} pb={2}>
           <Card>

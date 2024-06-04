@@ -8,7 +8,8 @@ export function useAnalise() {
   const { enqueueSnackbar } = useSnackbar();
 
   const { mutateAsync: handleAnalysis, isLoading: handleAnalysisIsLoading } = useMutation(
-    ({ produtosId, dataFim, dataInicio }: AnalysisProps) => PedidoService.getInstance().analysis({produtosId, dataFim, dataInicio}),
+    ({ produtosId, dataFim, dataInicio }: AnalysisProps) =>
+      PedidoService.getInstance().analysis({ produtosId, dataFim, dataInicio }),
     {
       onError(err: AxiosCustomError) {
         if (err.statusCode === HttpStatusCode.InternalServerError) {

@@ -1,30 +1,18 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import PropTypes from 'prop-types';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
-import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Stack,
-  SvgIcon,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Divider, Drawer, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items, adminItems } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useEffect, useState } from 'react';
-import useAuth from '@modules/auth/login/hooks/useAuth';
 import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
+import { useRouter } from 'next/router';
 
 export const SideNav = (props: { open: boolean; onClose: any }) => {
   const theme = useTheme();
+  const router = useRouter();
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
@@ -105,7 +93,12 @@ export const SideNav = (props: { open: boolean; onClose: any }) => {
               <Logo />
             </Box>
             <div>
-              <Typography color={theme.palette.primary.main} variant="subtitle1" pl={2}>
+              <Typography
+                color={theme.palette.primary.main}
+                variant="subtitle1"
+                pl={2}
+                onClick={() => router.push('/')}
+              >
                 LIRO PET SHOP
               </Typography>
             </div>

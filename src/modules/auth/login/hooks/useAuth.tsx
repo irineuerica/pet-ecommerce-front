@@ -19,7 +19,7 @@ export interface handleUserLoginToken {
 export default function useAuth() {
   const router = useRouter();
   const { handleLogin, handleLoginIsLoading } = useAuthQuery();
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);
   const [usuario, setUsuario] = useState<UsuarioInterface>();
 
@@ -29,6 +29,8 @@ export default function useAuth() {
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
       setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
     }
 
     setLoading(false);

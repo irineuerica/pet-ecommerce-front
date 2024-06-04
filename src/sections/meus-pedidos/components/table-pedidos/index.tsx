@@ -54,6 +54,7 @@ export default function TablePedidos() {
                 query: { pedidoId: cell.getValue<number>() },
               });
             }}
+            key={`btn_detalhes_${cell.id}`}
           >
             Ver detalhes
           </Button>
