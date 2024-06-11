@@ -11,6 +11,7 @@ import useAuth from '@modules/auth/login/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { PATH_AUTH } from 'src/routes/paths';
 import { ProdutoContext } from '@modules/produtos/context/produtoContext';
+import Script from 'next/script';
 
 const Page = () => {
   const router = useRouter();
@@ -59,6 +60,7 @@ const Page = () => {
             </TabList>
           </Box>
         </TabContext>
+
         {/* TODO Aplicar IA para sugestão de produtos
         
           <Grid container spacing={3}  mt={1} p={1}>
@@ -93,6 +95,22 @@ const Page = () => {
             ))}
           </Grid>
         )}
+        <Script
+          src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.3/libs/oversea/index.js"
+          strategy="lazyOnload"
+          onLoad={() =>
+            new window.CozeWebSDK.WebChatClient({
+              config: {
+                bot_id: '7377477109830467589',
+              },
+              componentProps: {
+                title: 'Liro Helper',
+                icon: '/assets/chat-balloon.png',
+                lang: 'pt-BR',
+              },
+            })
+          }
+        />
       </Stack>
     </>
   );
