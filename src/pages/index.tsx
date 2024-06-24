@@ -1,5 +1,5 @@
 //@ts-nocheck
-import {Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
 import Head from 'next/head';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { Box, Tab } from '@mui/material';
@@ -8,10 +8,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import ProductCard from 'src/components/ProductCard';
 import { useProduto } from '../modules/produtos/hooks/useProduto';
 import { ProdutoInterface } from 'src/interfaces/produtos.interface';
-import useAuth from '@modules/auth/login/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { PATH_AUTH } from 'src/routes/paths';
 import { ProdutoContext } from '@modules/produtos/context/produtoContext';
+import { useAuth } from '@modules/auth/login/contexts/authContext';
 
 const Page = () => {
   const router = useRouter();
@@ -24,10 +24,12 @@ const Page = () => {
   const { authenticated } = useAuth();
   const { categorias, categoriasIsLoading } = useProduto();
   const { produtosFiltrados, setCategoria, setPesquisa, pesquisa } = useContext(ProdutoContext);
-  if (!authenticated) {
-    router.push(PATH_AUTH.login);
-  }
-   
+
+
+  useEffect(() => {
+    if (!authenticated) router.push(PATH_AUTH.login);
+  }, [authenticated]);
+
   return (
     <>
       <Head>
@@ -60,27 +62,6 @@ const Page = () => {
             </TabList>
           </Box>
         </TabContext>
-
-        {/* TODO Aplicar IA para sugestão de produtos
-        
-          <Grid container spacing={3}  mt={1} p={1}>
-          <Grid item xs={12} md={12}>
-            <Typography textAlign={'center'} color={'secondary'} fontWeight={'bold'}>
-              Sugestões baseadas no seu perfil
-            </Typography>
-          </Grid>
-          {mock.map((e) => (
-            <Grid item xs={12} md={3}>
-              <ProductCard
-                id={e.id}
-                nome={e.nome}
-                descricao={e.descricao}
-                valor={e.valor}
-                categoria_id={e.categoria_id}
-              />
-            </Grid>
-          ))}
-        </Grid> */}
         {!isLoading && produtos && (
           <Grid container spacing={3} mt={3} px={1}>
             <Grid item xs={12} md={12}>

@@ -8,10 +8,10 @@ import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { SnackbarProvider } from 'notistack';
-import { AuthProvider } from '@modules/auth/login/contexts/authContext';
 import { DialogConfirmationProvider } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
 import { PedidoProvider } from '@modules/pedido/contexts/PedidoContext';
 import { ProdutoProvider } from '@modules/produtos/context/produtoContext';
+import { AuthProvider } from '@modules/auth/login/contexts/authContext';
 
 const clientSideEmotionCache = createEmotionCache();
 

@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
-import { api } from 'src/config/api.config';
+import { useRouter } from "next/router";
+import { useState, useEffect, createContext } from "react";
+import { api } from "src/config/api.config";
+import { useAuthQuery } from "./react-query/useAuthQuery";
 
-import { useRouter } from 'next/router';
-import { useAuthQuery } from './react-query/useAuthQuery';
-import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
-import { PATH_CLIENTE } from 'src/routes/paths';
+export interface UsuarioInterface {
+  id: string;
+  nome: string;
+  email: string;
+}
 
 export interface handleLoginProps {
   email: string;
@@ -16,25 +19,52 @@ export interface handleUserLoginToken {
   usuario: UsuarioInterface;
 }
 
-export default function useAuth() {
+export interface AuthContextProps {
+  usuario: UsuarioInterface | null;
+  authenticated: boolean;
+  loading: boolean;
+  handleUserLogin: ({ email, senha }: handleLoginProps) => Promise<void>;
+  handleLogout: () => void;
+  handleUserLoginToken: ({ token, usuario }: handleUserLoginToken) => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+export const AuthProvider: React.FC = ({ children }: any) => {
   const router = useRouter();
-  const { handleLogin, handleLoginIsLoading } = useAuthQuery();
-  const [authenticated, setAuthenticated] = useState(true);
+  const { handleLogin } = useAuthQuery();
+  const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [usuario, setUsuario] = useState<UsuarioInterface>();
+  const [usuario, setUsuario] = useState<UsuarioInterface | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-      setAuthenticated(true);
-    } else {
-      setAuthenticated(false);
-    }
+    const validateToken = async (token: string) => {
+      try {
+        const response = await api.get('/utils/validate-token', {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        });
+        if (response.status === 200) {
+          setAuthenticated(true);
+          const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+          setUsuario(usuario);
+        } else {
+          handleLogout();
+        }
+      } catch (error) {
+        handleLogout();
+      }
+      setLoading(false);
+    };
 
-    setLoading(false);
-  }, [authenticated]);
+    if (token) {
+      validateToken(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   async function handleUserLogin({ email, senha }: handleLoginProps) {
     const { token, usuario } = await handleLogin({ email, senha });
@@ -52,17 +82,20 @@ export default function useAuth() {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setUsuario(usuario);
     setAuthenticated(true);
-    router.push(PATH_CLIENTE.minha_conta.root);
+    router.push('/minha-conta');
   }
 
   function handleLogout() {
     setAuthenticated(false);
-    // @ts-ignore
-    setUsuario();
+    setUsuario(null);
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     api.defaults.headers.Authorization = null;
   }
 
-  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken, setUsuario };
-}
+  return (
+    <AuthContext.Provider value={{ usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

@@ -9,7 +9,8 @@ import { FormInputText } from 'src/components/FormInputText ';
 
 import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
-import useAuth, { handleLoginProps } from '@modules/auth/login/hooks/useAuth';
+import { handleLoginProps } from '@modules/auth/login/hooks/useAuth';
+import { useAuth } from '@modules/auth/login/contexts/authContext';
 
 export default function LoginSection() {
   const router = useRouter();
@@ -69,7 +70,6 @@ export default function LoginSection() {
             <FormInputText name="senha" label="Senha" type="password" />
           </Stack>
           <LoadingButton
-            loading={loading}
             fullWidth
             size="large"
             sx={{ mt: 3 }}

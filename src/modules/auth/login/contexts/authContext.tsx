@@ -1,30 +1,110 @@
-import { createContext } from 'react';
-import useAuth from '../hooks/useAuth';
-import { CadastroUsuarioInterface } from '@modules/auth/cadastro-usuario/types/cadastro-usuario-types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAuthQuery } from '../hooks/react-query/useAuthQuery';
+import { api } from 'src/config/api.config';
 
-type Props = {
-  children: React.ReactNode;
-};
+export interface UsuarioInterface {
+  id: string;
+  nome: string;
+  email: string;
+}
 
-type AuthContextData = {
-  usuario: CadastroUsuarioInterface;
-  handleLogin: () => void;
+export interface handleLoginProps {
+  email: string;
+  senha: string;
+}
+
+export interface handleUserLoginToken {
+  token: string;
+  usuario: UsuarioInterface;
+}
+
+interface AuthContextProps {
+  usuario: UsuarioInterface | null;
+  authenticated: boolean;
+  loading: boolean;
+  handleUserLogin: ({ email, senha }: handleLoginProps) => Promise<void>;
   handleLogout: () => void;
-};
+  handleUserLoginToken: ({ token, usuario }: handleUserLoginToken) => Promise<void>;
+}
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-function AuthProvider({ children }: Props) {
-  const { usuario, authenticated, loading, handleUserLogin, handleLogout } = useAuth();
+export const AuthProvider: React.FC = ({ children }: any) => {
+  const router = useRouter();
+  const { handleLogin } = useAuthQuery();
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [usuario, setUsuario] = useState<UsuarioInterface | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const validateToken = async (token: string) => {
+      try {
+        const response = await api.get('/utils/validate-token', {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        });
+        if (response.status === 200) {
+          setAuthenticated(true);
+          const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+          setUsuario(usuario);
+        } else {
+          handleLogout();
+        }
+      } catch (error) {
+        handleLogout();
+      }
+      setLoading(false);
+    };
+
+    if (token) {
+      validateToken(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  async function handleUserLogin({ email, senha }: handleLoginProps) {
+    const { token, usuario } = await handleLogin({ email, senha });
+    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+    setUsuario(usuario);
+    setAuthenticated(true);
+    router.push('/');
+  }
+
+  async function handleUserLoginToken({ token, usuario }: handleUserLoginToken) {
+    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+    setUsuario(usuario);
+    setAuthenticated(true);
+    router.push('/minha-conta');
+  }
+
+  function handleLogout() {
+    setAuthenticated(false);
+    setUsuario(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    api.defaults.headers.Authorization = null;
+  }
 
   return (
-    <AuthContext.Provider
-      // @ts-ignore
-      value={{ usuario, loading, authenticated, handleUserLogin, handleLogout }}
-    >
+    <AuthContext.Provider value={{ usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export { AuthContext, AuthProvider };
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
