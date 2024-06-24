@@ -30,7 +30,7 @@ const App = (props: { Component: any; emotionCache?: EmotionCache | undefined; p
       <Head>
         <title>Liro E-commerce</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.3/libs/oversea/index.js"></script>
+        
       </Head>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>

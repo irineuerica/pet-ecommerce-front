@@ -1,9 +1,10 @@
-import { Autocomplete, Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
+//@ts-nocheck
+import {Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
 import Head from 'next/head';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ProductCard from 'src/components/ProductCard';
 import { useProduto } from '../modules/produtos/hooks/useProduto';
 import { ProdutoInterface } from 'src/interfaces/produtos.interface';
@@ -11,7 +12,6 @@ import useAuth from '@modules/auth/login/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { PATH_AUTH } from 'src/routes/paths';
 import { ProdutoContext } from '@modules/produtos/context/produtoContext';
-import Script from 'next/script';
 
 const Page = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Page = () => {
   if (!authenticated) {
     router.push(PATH_AUTH.login);
   }
-
+   
   return (
     <>
       <Head>
@@ -95,22 +95,6 @@ const Page = () => {
             ))}
           </Grid>
         )}
-        <Script
-          src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.3/libs/oversea/index.js"
-          strategy="lazyOnload"
-          onLoad={() =>
-            new window.CozeWebSDK.WebChatClient({
-              config: {
-                bot_id: '7377477109830467589',
-              },
-              componentProps: {
-                title: 'Liro Helper',
-                icon: '/assets/chat-balloon.png',
-                lang: 'pt-BR',
-              },
-            })
-          }
-        />
       </Stack>
     </>
   );

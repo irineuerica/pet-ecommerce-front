@@ -34,7 +34,7 @@ export default function useAuth() {
     }
 
     setLoading(false);
-  }, []);
+  }, [authenticated]);
 
   async function handleUserLogin({ email, senha }: handleLoginProps) {
     const { token, usuario } = await handleLogin({ email, senha });
@@ -58,7 +58,7 @@ export default function useAuth() {
   function handleLogout() {
     setAuthenticated(false);
     // @ts-ignore
-    setUsuario({});
+    setUsuario();
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     api.defaults.headers.Authorization = null;

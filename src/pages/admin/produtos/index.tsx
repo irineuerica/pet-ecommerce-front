@@ -15,10 +15,8 @@ const Page = () => (
         flexGrow: 1,
       }}
     >
-      <Container maxWidth="lg">
-        <Stack spacing={3}>
-          <TableProdutosAdmin />
-        </Stack>
+      <Container>
+        <TableProdutosAdmin />
       </Container>
     </Box>
   </>

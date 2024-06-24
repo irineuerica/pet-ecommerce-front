@@ -15,9 +15,19 @@ export class ProdutoService {
     return this.instance;
   }
 
+  async listActive(): Promise<ProdutoInterface[]> {
+    try {
+      const { data } = await api.get<ProdutoInterface[]>(`/produto/`);
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async listAll(): Promise<ProdutoInterface[]> {
     try {
-      const { data } = await api.get<ProdutoInterface[]>(`/produto`);
+      const { data } = await api.get<ProdutoInterface[]>(`/produto/listAll`);
 
       return data;
     } catch (err) {
@@ -34,4 +44,35 @@ export class ProdutoService {
       throw err;
     }
   }
+
+  async create(produto: ProdutoInterface): Promise<ProdutoInterface> {
+    try {
+      const { data } = await api.post<ProdutoInterface>(`/produto/`, {produto});
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async update(produto: ProdutoInterface): Promise<ProdutoInterface> {
+    try {
+      const { data } = await api.put<ProdutoInterface>(`/produto/`, {produto});
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async show(id: number): Promise<ProdutoInterface> {
+    try {
+      const { data } = await api.get<ProdutoInterface>(`/produto/${id}`);
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
 }

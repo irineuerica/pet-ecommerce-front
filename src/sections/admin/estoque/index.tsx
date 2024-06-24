@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Container,
   Typography,
@@ -16,6 +17,7 @@ import {
   Grid,
   Select,
   MenuItem,
+  Chip,
 } from '@mui/material';
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
 import { useDialogConfirmation } from 'src/components/dialog-confirmation/DialogConfirmationProvider';
@@ -24,46 +26,32 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useRouter } from 'next/router';
 import AddIcon from '@mui/icons-material/Add';
-import { formatMoeda } from '../../../utils/formatMoeda';
+import { formatCurrency, formatMoeda } from '../../../utils/formatMoeda';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { PATH_ADMIN } from '../../../routes/paths';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { FormInputDate } from '../../../components/FormInputDate';
-import { FormInputText } from '../../../components/FormInputText ';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useEstoque } from '@modules/estoque/hooks/useEstoque';
+import moment from 'moment';
+import { EstoqueFormInterface, EstoqueInterface } from 'src/interfaces/estoque.interface';
+import { useProduto } from '@modules/produtos/hooks/useProduto';
+import { FormSelect, FormSelectOptions } from 'src/components/FormSelect';
+import { FormInputText } from 'src/components/FormInputText ';
+import { LoadingButton } from '@mui/lab';
 export default function TableEstoqueAdmin() {
   const router = useRouter();
   const theme = useTheme();
-  const { openDialogConfirmation } = useDialogConfirmation();
   const [open, setOpen] = useState(false);
-  const [openNovo, setOpenNovo] = useState(false);
+  const [estoqueSelecionado, setEstoqueSelecionado] = useState();
+  const [operacaoSelecionada, setOperacaoSelecionada] = useState();
+
+  function limparSelecionado() {
+    setEstoqueSelecionado(null);
+  }
+
   const methods = useForm();
-  const mock = [
-    {
-      id: 1,
-      produto: 'Produto 01',
-      grupo: 'Grupo 01',
-      quantidadeAtual: 55,
-      data: '02/02/2024',
-      valor: 50.41,
-    },
-    {
-      id: 2,
-      produto: 'Produto 02',
-      grupo: 'Grupo 02',
-      quantidadeAtual: 20,
-      data: '02/02/2024',
-      valor: 17.12,
-    },
-    {
-      id: 3,
-      produto: 'Produto 03',
-      grupo: 'Grupo 03',
-      quantidadeAtual: 10,
-      data: '02/02/2024',
-      valor: 20.0,
-    },
-  ];
+  const { estoques, isLoading } = useEstoque();
 
   const columnsPedidos = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -73,7 +61,7 @@ export default function TableEstoqueAdmin() {
         size: 20,
       },
       {
-        accessorKey: 'produto', //access nested data with dot notation
+        accessorKey: 'produto.nome', //access nested data with dot notation
         header: 'Produto',
         size: 200,
       },
@@ -83,33 +71,64 @@ export default function TableEstoqueAdmin() {
         size: 20,
       },
       {
-        accessorKey: 'grupo',
-        header: 'Grupo de preficificação',
-        size: 180,
+        accessorKey: 'custo',
+        header: 'Ult. valor de custo',
+        size: 50,
+        Cell: ({ cell }) => formatCurrency(cell.getValue<number>() ?? 0),
       },
       {
-        accessorKey: 'valor',
+        accessorKey: 'produto.valor',
         header: 'Valor de venda',
-        size: 180,
-        Cell: ({ cell }) => formatMoeda(cell.getValue<number>() ?? 0),
+        size: 50,
+        Cell: ({ cell }) => formatCurrency(cell.getValue<number>() ?? 0),
       },
       {
-        accessorKey: 'status_pedido_id',
+        accessorKey: 'dataEntrada',
+        header: 'Ult. data entrada',
+        size: 150,
+        Cell: ({ cell }) => moment(cell.getValue<string>()).format('DD/MM/YYYY'),
+      },
+      {
+        accessorKey: 'dataSaida',
+        header: 'Ult. data saída',
+        size: 150,
+        Cell: ({ cell }) => moment(cell.getValue<string>()).format('DD/MM/YYYY'),
+      },
+      {
+        accessorKey: 'produto.status',
         header: 'Status',
         size: 150,
-        Cell: ({ cell }) => (cell.getValue<boolean>() ? 'Ativo' : 'Inativo'),
+        Cell: ({ cell }) => (
+          <Chip
+            label={cell.getValue<boolean>() ? 'Ativo' : 'Inativo'}
+            color={cell.getValue<boolean>() ? 'success' : 'error'}
+          />
+        ),
       },
       {
         accessorKey: 'status',
         header: 'Ações',
         size: 200,
-        Cell: ({ cell }) => (
+        Cell: ({ row }) => (
           <Stack flexDirection={'row'}>
-            <IconButton onClick={() => setOpen(true)}>
-              <AddCircleOutlineIcon />
+            <IconButton
+              onClick={() => {
+                setEstoqueSelecionado(row.original);
+                console.log(row.original);
+                setOperacaoSelecionada('ENTRADA');
+                setOpen(true);
+              }}
+            >
+              <AddCircleOutlineIcon color="success" />
             </IconButton>
-            <IconButton onClick={() => setOpen(true)}>
-              <RemoveCircleIcon />
+            <IconButton
+              onClick={() => {
+                setEstoqueSelecionado(row.original);
+                setOperacaoSelecionada('SAIDA');
+                setOpen(true);
+              }}
+            >
+              <RemoveCircleIcon color="error" />
             </IconButton>
           </Stack>
         ),
@@ -125,14 +144,19 @@ export default function TableEstoqueAdmin() {
         </Typography>
         <Stack width="70%" direction="row" justifyContent="flex-end" marginLeft="30%">
           <Box display="flex" justifyContent="right">
-            <Button variant={'outlined'} startIcon={<AddIcon />} sx={{ mb: 3 }} onClick={() => setOpenNovo(true)}>
+            <Button variant={'outlined'} startIcon={<AddIcon />} sx={{ mb: 3 }} onClick={() => setOpen(true)}>
               Adicionar novo estoque
             </Button>
           </Box>
         </Stack>
-        <MaterialReactTable columns={columnsPedidos} data={mock} localization={MRT_Localization_PT_BR} />
-        <ModalNovo open={openNovo} setOpen={setOpenNovo} />
-        <ModalEditar open={open} setOpen={setOpen} />
+        <MaterialReactTable columns={columnsPedidos} data={estoques} localization={MRT_Localization_PT_BR} />
+        <ModalFormEstoque
+          open={open}
+          setOpen={setOpen}
+          estoque={estoqueSelecionado}
+          operacao={operacaoSelecionada}
+          limparSelecionado={limparSelecionado}
+        />
       </Container>
     </FormProvider>
   );
@@ -141,77 +165,144 @@ export default function TableEstoqueAdmin() {
 interface ModalProps {
   open: boolean;
   setOpen: (value: boolean) => void;
+  limparSelecionado: () => void;
+  estoque?: EstoqueInterface;
+  operacao?: 'ENTRADA' | 'SAIDA';
 }
 
-export function ModalNovo({ open, setOpen }: ModalProps) {
-  return (
-    <Dialog open={open} maxWidth={'md'}>
-      <DialogTitle>Gerencia Estoque</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Select label={'Produtos'} sx={{ minWidth: '35%' }} defaultValue={'1'} fullWidth>
-              <MenuItem value="1">Produto 01</MenuItem>
-              <MenuItem value="1">Produto 02</MenuItem>
-              <MenuItem value="1">Produto 03</MenuItem>
-              <MenuItem value="1">Produto 04</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Fornecedor'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField disabled label={'Grupo de precifição'} value={'Grupo 01'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormInputDate name={'data'} label={'Data transação'} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Quantidade'} type={'number'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Valor de custo'} type={'number'} fullWidth />
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancelar</Button>
-        <Button onClick={() => setOpen(false)}>Salvar</Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
+export function ModalFormEstoque({ open, setOpen, estoque, operacao, limparSelecionado }: ModalProps) {
+  const methods = useForm();
+  const { todosProdutos } = useProduto();
+  const isEdit = estoque ? true : false;
+  const {
+    gruposPrecificacao,
+    handleCriarEstoque,
+    handleCriarEstoqueIsLoading,
+    handleAlterarEstoque,
+    handleAlterarEstoqueIsLoading,
+  } = useEstoque();
+  const [opcoesProdutos, setOpcoesProdutos] = useState<FormSelectOptions>();
+  const [opcoesGruposPrecificacao, setOpcoesGruposPrecificacao] = useState<FormSelectOptions>();
 
-export function ModalEditar({ open, setOpen }: ModalProps) {
+  const submitEstoque: SubmitHandler<EstoqueFormInterface> = async (estoqueData) => {
+    try {
+      if (estoque) {
+        await handleAlterarEstoque(estoqueData);
+      } else {
+        await handleCriarEstoque(estoque);
+      }
+      setOpen(false);
+    } catch (err) {
+      throw err;
+    } finally {
+      methods.reset();
+      limparSelecionado();
+    }
+  };
+
+  useEffect(() => {
+    if (todosProdutos) {
+      setOpcoes();
+    }
+    if (gruposPrecificacao) {
+      setOpcoes();
+    }
+  }, [todosProdutos, gruposPrecificacao]);
+
+  useEffect(() => {
+    if (estoque) {
+      methods.reset({
+        precificacao: estoque.produto.precificacao.id,
+        fornecedor: estoque.fornecedor,
+        produto: estoque.produto.id,
+        operacao,
+      });
+      setOpcoes();
+    }
+  }, [estoque]);
+
+  function setOpcoes() {
+    if (todosProdutos) {
+      if (estoque) {
+        const opcoes = todosProdutos?.map((produto) => {
+          return { value: produto.id || 0, label: produto.nome };
+        });
+        setOpcoesProdutos(opcoes);
+      } else {
+        const produtosSemEstoque = todosProdutos.filter((produto) => !produto.estoque);
+        const opcoes = produtosSemEstoque?.map((produto) => {
+          return { value: produto.id || 0, label: produto.nome };
+        });
+        setOpcoesProdutos(opcoes);
+      }
+    }
+
+    if (gruposPrecificacao) {
+      const opcoes = gruposPrecificacao.map((grupo) => {
+        return { value: grupo.id, label: `${grupo.nome} - ${grupo.porcentagem}%` };
+      });
+      setOpcoesGruposPrecificacao(opcoes);
+    }
+  }
+
   return (
-    <Dialog open={open} maxWidth={'md'}>
-      <DialogTitle>Gerenciar Estoque</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField disabled label={'Produto'} value={'Produto 01'} fullWidth />
+    <FormProvider {...methods}>
+      <Dialog open={open} maxWidth={'md'}>
+        <DialogTitle>Gerencia Estoque</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <FormSelect name="produto" disabled={isEdit} options={opcoesProdutos || []} label="Produtos" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputText name="fornecedor" label="Fornecedor" fullWidth />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormSelect
+                name="precificacao"
+                disabled={isEdit}
+                options={opcoesGruposPrecificacao || []}
+                label="Grupo de precifição"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputDate name="data" label={'Data transação'} maxDate={new Date()} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormInputText name="quantidade" label="Quantidade" type="number" fullWidth />
+            </Grid>
+            {operacao !== 'SAIDA' && (
+              <Grid item xs={12} md={6}>
+                <FormInputText name="custo" label={'Valor de custo'} type="number" fullWidth />
+              </Grid>
+            )}
           </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Fornecedor'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField disabled label={'Grupo de precifição'} value={'Grupo 01'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormInputDate name={'data'} label={'Data transação'} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Quantidade'} type={'number'} fullWidth />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label={'Valor de custo'} type={'number'} fullWidth />
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancelar</Button>
-        <Button onClick={() => setOpen(false)}>Salvar</Button>
-      </DialogActions>
-    </Dialog>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              methods.reset();
+              limparSelecionado();
+              setOpen(false);
+            }}
+            color="error"
+          >
+            Cancelar
+          </Button>
+          <LoadingButton
+            loading={handleCriarEstoqueIsLoading || handleAlterarEstoqueIsLoading}
+            onClick={() => {
+              // @ts-ignore
+              methods.handleSubmit(submitEstoque, (e) => {
+                console.error(e);
+              })();
+            }}
+            color="success"
+          >
+            Salvar
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </FormProvider>
   );
 }

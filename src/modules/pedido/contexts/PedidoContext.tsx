@@ -71,7 +71,7 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   }, [endereco?.estado]);
 
   useEffect(() => {
-    // validaTempoCarrinho()
+    validaTempoCarrinho()
   }, [gamb]);
 
   function calculaProdutos() {
@@ -115,13 +115,6 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
     setDesconto(totalDesconto);
   }
 
-  function deletarItem(produtoId: number) {
-    let auxCarrinho = carrinho.itens?.filter(
-      (itemCarrinho: ItemCarrinhoInterface) => itemCarrinho.produto.id !== produtoId,
-    );
-    setCarrinho({ itens: auxCarrinho });
-  }
-
   function adicionar(produto: ProdutoInterface) {
     let index = carrinho?.itens?.findIndex((item) => item.produto?.id == produto.id);
     if (index && index != +-1 && carrinho) {
@@ -148,24 +141,27 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
   }
 
   async function validaTempoCarrinho() {
-    var tempoMaximo = 120000;
+    var tempoMaximo = 600000;
     let indexsCancelados = [];
     if (carrinho.itens?.length > 0) {
       for (let i = 0; i <= carrinho.itens?.length; i++) {
         if (Date.now() - tempoMaximo > carrinho?.itens[i]?.tempoCarrinho) {
           await cancelarItem(carrinho?.itens[i]);
-          indexsCancelados.push(i);
+          indexsCancelados.push(carrinho.itens[i].produto.id);
         }
       }
       for (const index of indexsCancelados) {
-        deletarItem(index);
+        const auxCarrinho = carrinho.itens?.filter(
+          (itemCarrinho: ItemCarrinhoInterface) => itemCarrinho.produto.id !== index,
+        );
+        setCarrinho({ itens: auxCarrinho });
       }
     }
   }
 
   setInterval(function () {
     setGamb(gamb + 1);
-  }, 60000);
+  }, 600000);
 
   function adicionarCartao(cartao: CartaoInterface) {
     if (pagamento?.cartoes?.length === 0 && total > 10) {
@@ -268,7 +264,6 @@ export const PedidoProvider: React.FC<PedidoProviderProps> = ({ children }) => {
     desconto,
     itensCancelados,
     setCarrinho,
-    deletarItem,
     adicionar,
     setEndereco,
     setEnderecoCobranca,

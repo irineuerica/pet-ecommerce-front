@@ -25,6 +25,7 @@ export const PATH_CLIENTE = {
   meus_pedidos: path(ROOT_CLIENTE, '/meus-pedidos'),
   detalhe_pedido: path(ROOT_CLIENTE, '/meus-pedidos/detalhe-pedido'),
   meus_cupons: path(ROOT_CLIENTE, '/meus-cupons'),
+  ajuda: path(ROOT_CLIENTE, '/ajuda')
 };
 
 export const PATH_ADMIN = {
@@ -34,7 +35,7 @@ export const PATH_ADMIN = {
   usuarios: path(ROOT_ADMIN, '/usuarios'),
   dashboard: path(ROOT_ADMIN, '/dashboard'),
   produtos: path(ROOT_ADMIN, '/produtos'),
-  novo_produto: path(ROOT_ADMIN, '/produtos/form-produto'),
+  form_produto: path(ROOT_ADMIN, '/produtos/form-produto'),
   estoque: path(ROOT_ADMIN, '/estoque'),
   cupons: path(ROOT_ADMIN, '/cupons'),
 };

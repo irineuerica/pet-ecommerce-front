@@ -79,13 +79,6 @@ export default function TableCuponsAdmin() {
         <Typography fontWeight={'bold'} fontSize={24} pb={3} color={theme.palette.primary.dark}>
           Cupons
         </Typography>
-        <Stack width="70%" direction="row" justifyContent="flex-end" marginLeft="30%">
-          <Box display="flex" justifyContent="right">
-            <Button variant={'outlined'} startIcon={<AddIcon />} sx={{ mb: 3 }} onClick={() => setOpenNovo(true)}>
-              Adicionar novo cupom promocional
-            </Button>
-          </Box>
-        </Stack>
         {getAllCuponsIsLoading || !cupons ? (
           <Lottie animationData={loadingAnimation} loop={true} style={{ height: 400 }} />
         ) : (

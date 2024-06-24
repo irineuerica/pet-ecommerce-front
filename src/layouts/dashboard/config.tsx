@@ -30,6 +30,15 @@ export const items = [
       </SvgIcon>
     ),
   },
+  {
+    title: 'Ajuda',
+    path: PATH_CLIENTE.ajuda,
+    icon: (
+      <SvgIcon fontSize="small">
+        <PetsOutlinedIcon />
+      </SvgIcon>
+    ),
+  },
 ];
 
 export const adminItems = [
