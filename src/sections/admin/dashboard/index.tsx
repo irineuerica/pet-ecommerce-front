@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Container, Stack } from '@mui/material';
+import { Container, FormLabel, Stack } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormInputDate } from '../../../components/FormInputDate';
@@ -80,6 +80,7 @@ export default function Dashboard() {
       const date = new Date(item.data);
       const day = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
       const quantity = parseInt(item.quantidade, 10);
+      console.log(item.quantidade)
       const productName = item.nome;
 
       if (!productSales[productName]) {
@@ -89,8 +90,11 @@ export default function Dashboard() {
       if (!productSales[productName][day]) {
         productSales[productName][day] = 0;
       }
+
+
       productSales[productName][day] += quantity;
     });
+    console.log(productSales)
 
     return productSales;
   };
@@ -156,7 +160,11 @@ export default function Dashboard() {
           <>
             <Stack spacing={3} paddingBottom={3}>
               {produtosOptions?.length > 0 && (
-                <FormMultiSelect name="produtosSelecionados" options={produtosOptions} chip />
+                <>
+                  <FormLabel>Produtos</FormLabel>
+                  <FormMultiSelect name="produtosSelecionados" options={produtosOptions} chip />
+                </>
+
               )}
               <Stack flexDirection={'row'} gap={2}>
                 <FormInputDate maxDate={new Date()} name={'dataInicio'} label={'De'} />
