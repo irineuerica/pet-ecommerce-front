@@ -80,7 +80,6 @@ export default function Dashboard() {
       const date = new Date(item.data);
       const day = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
       const quantity = parseInt(item.quantidade, 10);
-      console.log(item.quantidade)
       const productName = item.nome;
 
       if (!productSales[productName]) {
@@ -94,7 +93,6 @@ export default function Dashboard() {
 
       productSales[productName][day] += quantity;
     });
-    console.log(productSales)
 
     return productSales;
   };
@@ -126,10 +124,7 @@ export default function Dashboard() {
         },
         type: 'time',
         time: {
-          unit: 'day',
-          displayFormats: {
-            day: 'dd/MM',
-          },
+          unit: 'month',
           tooltipFormat: 'dd/MM/yyyy',
           adapters: {
             date: {
@@ -143,11 +138,6 @@ export default function Dashboard() {
           display: true,
           text: 'Quantidade Vendida',
         },
-
-        ticks: {
-          stepSize: 1,
-        },
-
         beginAtZero: true,
       },
     },
