@@ -2,11 +2,12 @@ import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import { useUsuarioQuery } from '@modules/usuarios/hooks/react-query/useUsuarioQuery';
 import { useMemo } from 'react';
 import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
-import Lottie from 'lottie-react';
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loadingAnimation from 'src/animations/cat_loading.json';
 import moment from 'moment';
 import { Box, Chip, Container, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
-
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
