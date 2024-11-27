@@ -1,8 +1,10 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import Head from 'next/head';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
-import Lottie from 'lottie-react';
 import loadingAnimation from 'src/animations/404.json';
 
 const Page = () => (
