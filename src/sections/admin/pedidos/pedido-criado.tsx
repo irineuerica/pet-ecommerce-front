@@ -1,9 +1,11 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import React from 'react';
 import { Container, Button, Typography, Stack } from '@mui/material';
 
 import { useRouter } from 'next/router';
 
-import Lottie from 'lottie-react';
 import orderAnimation from 'src/animations/cat_order.json';
 import { PATH_CLIENTE } from 'src/routes/paths';
 
