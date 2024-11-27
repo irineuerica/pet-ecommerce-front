@@ -1,3 +1,6 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import React, { useMemo } from 'react';
 import { Container, Typography, useTheme } from '@mui/material';
@@ -5,7 +8,6 @@ import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR';
 import { FormProvider, useForm } from 'react-hook-form';
 import { formatCurrency } from '../../utils/formatMoeda';
 import { useCupomQuery } from '@modules/cupons/hooks/react-query/useCupomQuery';
-import Lottie from 'lottie-react';
 import loadingAnimation from 'src/animations/cat_loading.json';
 
 export default function TableMeusCupons() {
