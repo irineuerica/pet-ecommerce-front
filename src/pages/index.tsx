@@ -11,7 +11,7 @@ import { ProdutoInterface } from 'src/interfaces/produtos.interface';
 import { useRouter } from 'next/router';
 import { PATH_AUTH } from 'src/routes/paths';
 import { ProdutoContext } from '@modules/produtos/context/produtoContext';
-import { useAuth } from '@modules/auth/login/contexts/authContext';
+import useAuth from '@modules/auth/login/hooks/useAuth';
 
 const Page = () => {
   const router = useRouter();
