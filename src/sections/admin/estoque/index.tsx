@@ -189,7 +189,7 @@ export function ModalFormEstoque({ open, setOpen, estoque, operacao, limparSelec
       if (estoque) {
         await handleAlterarEstoque(estoqueData);
       } else {
-        await handleCriarEstoque(estoque);
+        await handleCriarEstoque(estoqueData);
       }
       setOpen(false);
     } catch (err) {
