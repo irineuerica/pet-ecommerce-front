@@ -1,13 +1,10 @@
-import { useRouter } from "next/router";
-import { useState, useEffect, createContext } from "react";
-import { api } from "src/config/api.config";
-import { useAuthQuery } from "./react-query/useAuthQuery";
+import { useState, useEffect } from 'react';
+import { api } from 'src/config/api.config';
 
-export interface UsuarioInterface {
-  id: string;
-  nome: string;
-  email: string;
-}
+import { useRouter } from 'next/router';
+import { useAuthQuery } from './react-query/useAuthQuery';
+import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
+import { PATH_CLIENTE } from 'src/routes/paths';
 
 export interface handleLoginProps {
   email: string;
@@ -19,51 +16,26 @@ export interface handleUserLoginToken {
   usuario: UsuarioInterface;
 }
 
-export interface AuthContextProps {
-  usuario: UsuarioInterface | null;
-  authenticated: boolean;
-  loading: boolean;
-  handleUserLogin: ({ email, senha }: handleLoginProps) => Promise<void>;
-  handleLogout: () => void;
-  handleUserLoginToken: ({ token, usuario }: handleUserLoginToken) => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
-export const AuthProvider: React.FC = ({ children }: any) => {
+export default function useAuth() {
   const router = useRouter();
-  const { handleLogin } = useAuthQuery();
-  const [authenticated, setAuthenticated] = useState(false);
+  const { handleLogin, handleLoginIsLoading } = useAuthQuery();
+  const [authenticated, setAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [usuario, setUsuario] = useState<UsuarioInterface | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioInterface>();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
-    const validateToken = async (token: string) => {
-      try {
-        const response = await api.get('/utils/validate-token', {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        });
-        if (response.status === 200) {
-          setAuthenticated(true);
-          const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-          setUsuario(usuario);
-        } else {
-          handleLogout();
-        }
-      } catch (error) {
-        handleLogout();
-      }
-      setLoading(false);
-    };
-
-    if (token) {
-      validateToken(token);
+    const storedUser = localStorage.getItem('usuario');
+  
+    if (token && storedUser) {
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+      setUsuario(JSON.parse(storedUser)); 
+      setAuthenticated(true);
     } else {
-      setLoading(false);
+      setAuthenticated(false);
     }
+  
+    setLoading(false); 
   }, []);
 
   async function handleUserLogin({ email, senha }: handleLoginProps) {
@@ -82,20 +54,17 @@ export const AuthProvider: React.FC = ({ children }: any) => {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setUsuario(usuario);
     setAuthenticated(true);
-    router.push('/minha-conta');
+    router.push(PATH_CLIENTE.minha_conta.root);
   }
 
   function handleLogout() {
     setAuthenticated(false);
-    setUsuario(null);
+    // @ts-ignore
+    setUsuario();
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     api.defaults.headers.Authorization = null;
   }
 
-  return (
-    <AuthContext.Provider value={{ usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  return { usuario, authenticated, loading, handleUserLogin, handleLogout, handleUserLoginToken, setUsuario };
+}
