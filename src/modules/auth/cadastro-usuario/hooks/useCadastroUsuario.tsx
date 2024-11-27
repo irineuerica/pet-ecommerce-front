@@ -6,7 +6,7 @@ import { CadastroUsuarioInterface } from '../types/cadastro-usuario-types';
 import { CadastroUsuarioService } from '../services/cadastro-usuario.service';
 import { HttpStatusCode } from 'axios';
 import { AxiosCustomError } from 'src/@types/axios.types';
-import { useAuth } from '@modules/auth/login/contexts/authContext';
+import useAuth from '@modules/auth/login/hooks/useAuth';
 
 export function useCadastroUsuario() {
   const router = useRouter();
