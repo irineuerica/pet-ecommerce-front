@@ -4,4 +4,4 @@ const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
-export const api = axios.create({ baseURL: 'http://localhost:3013', headers });
+export const api = axios.create({ baseURL: 'https://api-petshop.stralom.com', headers });
