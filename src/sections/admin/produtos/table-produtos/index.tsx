@@ -1,3 +1,6 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import { MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import React, { useMemo, useState } from 'react';
 import {
@@ -28,7 +31,6 @@ import { formatCurrency, formatMoeda } from '../../../../utils/formatMoeda';
 import { useProduto } from '@modules/produtos/hooks/useProduto';
 import { ProdutoInterface } from 'src/interfaces/produtos.interface';
 import { LoadingButton } from '@mui/lab';
-import Lottie from 'lottie-react';
 import loadingAnimation from 'src/animations/cat_loading.json';
 export default function TableProdutosAdmin() {
   const router = useRouter();
