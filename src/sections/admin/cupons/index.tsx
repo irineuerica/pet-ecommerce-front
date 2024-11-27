@@ -47,19 +47,14 @@ export default function TableCuponsAdmin() {
   const columnsPedidos = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'codigo', //access nested data with dot notation
+        accessorKey: 'codigo',
         header: 'Código',
         size: 20,
       },
       {
-        accessorKey: 'tipo', //access nested data with dot notation
+        accessorKey: 'tipo', 
         header: 'Tipo',
         size: 200,
-      },
-      {
-        accessorKey: 'codigo',
-        header: 'Cliente',
-        size: 20,
       },
       {
         accessorKey: 'valor',
