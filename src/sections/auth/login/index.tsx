@@ -10,7 +10,7 @@ import { FormInputText } from 'src/components/FormInputText ';
 import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
 import { handleLoginProps } from '@modules/auth/login/hooks/useAuth';
-import { useAuth } from '@modules/auth/login/contexts/authContext';
+import useAuth from '@modules/auth/login/hooks/useAuth';
 
 export default function LoginSection() {
   const router = useRouter();
