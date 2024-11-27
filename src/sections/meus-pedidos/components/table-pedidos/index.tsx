@@ -1,3 +1,6 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import { useMemo } from 'react';
 import moment from 'moment';
@@ -8,7 +11,6 @@ import { PedidoInterface } from '../../../../interfaces/pedidos.interface';
 import { PATH_CLIENTE } from '../../../../routes/paths';
 import { useRouter } from 'next/router';
 import { usePedido } from '@modules/pedido/hooks/usePedido';
-import Lottie from 'lottie-react';
 import loadingAnimation from 'src/animations/cat_loading.json';
 
 export default function TablePedidos() {
