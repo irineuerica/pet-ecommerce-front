@@ -1,10 +1,10 @@
+"use client";
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import { MRT_ColumnDef, MaterialReactTable } from 'material-react-table';
 import { useUsuarioQuery } from '@modules/usuarios/hooks/react-query/useUsuarioQuery';
 import { useMemo } from 'react';
 import { UsuarioInterface } from '@modules/usuarios/interfaces/usuario.interface';
-"use client";
-import dynamic from 'next/dynamic';
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loadingAnimation from 'src/animations/cat_loading.json';
 import moment from 'moment';
 import { Box, Chip, Container, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
